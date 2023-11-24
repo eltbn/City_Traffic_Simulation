@@ -9,3 +9,4 @@ ArrayList <Traffic>() People_in_Road = new Traffic[];
 void weightcalculation(){
   }
 }
+khgshyxgqskhsjxh
