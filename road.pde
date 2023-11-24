@@ -3,10 +3,9 @@ int name;
 PVector StartPoint,EndPoint;
 int speedlimit;
 float weight;
-ArrayList <Traffic>() People_in_Road = new Traffic[];
+ArrayList <Traffic> People_in_Road = new ArrayList<Traffic>();
 
 
 void weightcalculation(){
   }
 }
-khgshyxgqskhsjxh
