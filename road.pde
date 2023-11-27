@@ -8,5 +8,8 @@ ArrayList <Traffic> People_in_Road = new ArrayList<Traffic>();
 
 // edits
 void weightcalculation(){
+  
+  
+  
   }
 }
