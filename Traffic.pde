@@ -1,2 +1,7 @@
-class Traffic{
+class Traffic {
+  PVector Pos;
+  float Speed;
+  
+  
+  
 }
