@@ -34,7 +34,7 @@ void weightcalculation(){
   }
   
   
-  
+  //super.
 }
 
 //class Highway extends Road {
