@@ -19,6 +19,10 @@ class Building {
       this.enterable = true;
     }
   }
+  void drawbuilding(){
+    fill(this.Colour);
+    rect(this.Pos.x+20,this.Pos.y+20,this.Pos.x-20,this.Pos.x-20);
+  }
 }
 
 
