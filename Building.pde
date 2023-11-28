@@ -5,16 +5,17 @@ class Building {
   color Colour;
  
  Building(PVector p, int c,color col){
-    this.Pos =p ;
+    this.Pos = p;
     this.capacity= c; 
     this.numpeople = 0;
     this.enterable = true;
     this.Colour = col;
   }
+  
   void updateB(){
     if (this.capacity<=this.numpeople){
       this.enterable = false;
-    }else {
+    } else {
       this.enterable = true;
     }
   }
@@ -26,7 +27,6 @@ class School extends Building{
     super(p,int(random(100,200)),color(255,0,0));
   }
 }
-
 
 class Bank extends Building{ 
   Bank(PVector p){
