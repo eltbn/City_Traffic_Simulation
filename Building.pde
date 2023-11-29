@@ -3,8 +3,8 @@ class Building {
   PVector Pos;
   Boolean enterable;
   color Colour;
- 
- Building(PVector p, int c,color col){
+  
+ Building(PVector p, int c, color col){
     this.Pos = p;
     this.capacity= c; 
     this.numpeople = 0;
@@ -19,9 +19,12 @@ class Building {
       this.enterable = true;
     }
   }
-  void drawbuilding(){
+  
+  
+  void drawBuilding(){
     fill(this.Colour);
-    rect(this.Pos.x+20,this.Pos.y+20,this.Pos.x-20,this.Pos.x-20);
+    println(this.Colour, this.Pos.x);
+    rect(this.Pos.x,this.Pos.y, 100, 100);
   }
 }
 
