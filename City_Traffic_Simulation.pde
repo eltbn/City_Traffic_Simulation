@@ -55,9 +55,7 @@ void draw() {
   }
   
   time += 1*speedUpFactor;
-
-  
-  time += 1*speedUpFactor;
+  setTime();
 //=======
 
   for (Building currBuilding : Buildings) {
@@ -65,7 +63,7 @@ void draw() {
     currBuilding.drawBuilding();
   }
   
-  noLoop();
+  //noLoop();
 }
 
 
