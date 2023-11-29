@@ -16,8 +16,8 @@ ArrayList <Traffic> People_in_Road = new ArrayList<Traffic>();
 
 void drawRoad() {
   strokeWeight(10);
-  rect(this.startPoint.x, this.startPoint.y, this.endPoint.x, roadSize);
-  //line(this.startPoint.x, this.startPoint.y, this.endPoint.x, this.endPoint.y);
+  //rect(this.startPoint.x, this.startPoint.y, this.endPoint.x, roadSize);
+  line(this.startPoint.x, this.startPoint.y, this.endPoint.x, this.endPoint.y);
   strokeWeight(1);
 }
 
