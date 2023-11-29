@@ -1,14 +1,9 @@
 import g4p_controls.*;
 
-int roadSize = 10; // for the demo, not sure if this will be a variable for roads
+int roadSize = 50; // for the demo, not sure if this will be a variable for roads
 int selCity = 1; // put this into the GUI later
 
 
-
-float time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:01
-float speedUpFactor = 1;
-String inGameTime = "00:00"; // not going to be a string, just a placeholder
-int frameRate = 60;
 
 boolean Builder; // for building a city or choosing a preset city
 
@@ -36,9 +31,9 @@ void setup() {
   
 
   
-  //Road test = new Road(200, 200, 300, 200, 5, 1);
-  //Roads.add(test);
-  generateRoads();
+  Road test = new Road(200, 200, 300, 200, 5, 1);
+  Roads.add(test);
+  
   generateBuildings();
   //println
   
@@ -47,14 +42,11 @@ void setup() {
 
 void draw() {
   background(255);
-  frameRate(frameRate);
  // fill(255);
  
   for (Road currRoad : Roads) {
     currRoad.drawRoad();
   }
-  
-  time += 1*speedUpFactor;
   for (Building currBuilding : Buildings) {
 
     currBuilding.drawBuilding();
@@ -105,23 +97,13 @@ void generateRoads() {
   int [] preset = findPreset(roadData);
   
   int n = preset[0];
+  
   for (int i = 0; i < preset[1]; i++) {
     int curr = n + i;
+    int SPStart = roadData[curr].indexOf("SPx");
+    //int EPStart = roadData[curr].indexOf("
     
-    int SPStart = roadData[curr].indexOf("SP:")+4;
-    println("char at",roadData[curr].charAt(SPStart));
-    PVector startPoint = new PVector(int(roadData[curr].substring(SPStart, SPStart + 3)), int(roadData[curr].substring(SPStart+4, SPStart + 7)));
-    println("Start",startPoint);
-    
-    int EPStart = roadData[curr].indexOf("EP:")+4;
-    println("char at",roadData[curr].charAt(EPStart));
-    PVector endPoint = new PVector(int(roadData[curr].substring(EPStart, EPStart + 3)), int(roadData[curr].substring(EPStart+4, EPStart + 7)));
-    println("end",endPoint);
-    
-    Road newRoad = new Road(startPoint, endPoint, 1, 1);
-    Roads.add(newRoad);
   }
-  
   
   
 }
@@ -134,7 +116,7 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
   while (!file[sn].substring(0, 2).equals("C" + start)) {
     sn ++;
   }
-  // println("final", sn, ":", file[sn]);
+   println("final", sn, ":", file[sn]);
   
   int en = sn; // index of the last building; continue from the start index
   
@@ -143,13 +125,12 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
     en ++;
   }
   en --;
- // println("final", en, ":", file[en]);
+  println("final", en, ":", file[en]);
   
   int numBuildings = en - sn;
- // println(numBuildings);
+  println(numBuildings);
   
   int n = 1+sn;
   int [] output = {n, numBuildings};
   return output;
-
 }
