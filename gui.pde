@@ -25,7 +25,6 @@ public void Time_Changed(GSlider source, GEvent event) { //_CODE_:Time_Scale:418
 } //_CODE_:Time_Scale:418764:
 
 public void Time_Changed_Title(GTextField source, GEvent event) { //_CODE_:Time_Scale_Title:224194:
-  println("Time_Scale_Title - GTextField >> GEvent." + event + " @ " + millis());
 } //_CODE_:Time_Scale_Title:224194:
 
 public void button1_click1(GButton source, GEvent event) { //_CODE_:button1:630141:
