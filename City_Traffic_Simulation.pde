@@ -35,6 +35,7 @@ void setup() {
   Roads.add(test);
   
   generateBuilding();
+  //println
   
 }
 
@@ -46,6 +47,12 @@ void draw() {
   for (Road currRoad : Roads) {
     currRoad.drawRoad();
   }
+  for (Building currBuilding : Buildings) {
+
+    currBuilding.drawBuilding();
+  }
+  
+  noLoop();
 }
 
 
@@ -76,14 +83,27 @@ void generateBuilding() {
   
   int n = 1+sn;
   for (int i = 0; i < numBuildings; i++) {
+    int curr = n + i;
+    int yStart = buildingData[curr].indexOf("Y:") + 3;
+    float y = float(buildingData[curr].substring(yStart));
     
-    int yStart = buildingData[1+i+sn].indexOf("Y:") + 3;
-    float y = float(buildingData[1+i+sn].substring(yStart));
-    println("index:", i, "y value", y);
+    int xStart = buildingData[curr].indexOf("X:") + 3;
+    float x = float(buildingData[curr].substring(xStart, yStart - 4));
+    println("index:", i, "x value", x, "y value", y);
     
-    int xStart = building
-    
-    
+    char buildType = buildingData[curr].charAt(3);
+    switch (buildType) {
+      
+      case 'B':
+        Bank newBank = new Bank(new PVector(x, y));
+        Buildings.add(newBank);
+        break;
+       
+      case 'S':
+        School newSchool = new School(new PVector(x, y));
+        Buildings.add(newSchool);
+        break;
+    }
   }
   
   //switch
