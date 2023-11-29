@@ -56,16 +56,22 @@ void draw() {
   }
   
   time += 1*speedUpFactor;
+<<<<<<< HEAD
+  setTime();
+//=======
+=======
 
   
   time += 1*speedUpFactor;
 
+>>>>>>> ac94bb746c0ec75cf13ce48a8b253c79133f8148
 
   for (Building currBuilding : Buildings) {
 
     currBuilding.drawBuilding();
   }
   
+<<<<<<< HEAD
   for (Traffic currTraffic : People) {
 
     currTraffic.drawTraffic();
@@ -75,6 +81,9 @@ void draw() {
   
   
   
+=======
+  //noLoop();
+>>>>>>> fc261a147822c5de312c0e0cac2abeaf8f77467a
 }
 
 

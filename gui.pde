@@ -28,13 +28,13 @@ public void Time_Changed_Title(GTextField source, GEvent event) { //_CODE_:Time_
 } //_CODE_:Time_Scale_Title:224194:
 
 public void Pause_Start(GButton source, GEvent event) { //_CODE_:Pause_Button:630141:
-  if (option == false) {
-   option = true;
+  if (pause_button_option == false) {
+   pause_button_option = true;
    Pause_Button.setText("RESUME");
    speedUpFactor = 1;
   }
   else {
-   option = false;
+   pause_button_option = false;
    Pause_Button.setText("PAUSE");
    speedUpFactor = 0;
   }
