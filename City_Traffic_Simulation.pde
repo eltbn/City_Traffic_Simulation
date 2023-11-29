@@ -53,10 +53,10 @@ void draw() {
   for (Road currRoad : Roads) {
     currRoad.drawRoad();
   }
-<<<<<<< HEAD
+//<<<<<<< HEAD
   
   time += 1*speedUpFactor;
-=======
+//=======
   for (Building currBuilding : Buildings) {
 
     currBuilding.drawBuilding();
@@ -153,5 +153,5 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
   int n = 1+sn;
   int [] output = {n, numBuildings};
   return output;
->>>>>>> be6b55d1958100fd4a96cea800adcde7afc0245f
+//>>>>>>> be6b55d1958100fd4a96cea800adcde7afc0245f
 }
