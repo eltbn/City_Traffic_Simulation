@@ -27,9 +27,18 @@ public void Time_Changed(GSlider source, GEvent event) { //_CODE_:Time_Scale:418
 public void Time_Changed_Title(GTextField source, GEvent event) { //_CODE_:Time_Scale_Title:224194:
 } //_CODE_:Time_Scale_Title:224194:
 
-public void button1_click1(GButton source, GEvent event) { //_CODE_:button1:630141:
-  println("button1 - GButton >> GEvent." + event + " @ " + millis());
-} //_CODE_:button1:630141:
+public void Pause_Start(GButton source, GEvent event) { //_CODE_:Pause_Button:630141:
+  if (option == false) {
+   option = true;
+   Pause_Button.setText("RESUME");
+   speedUpFactor = 1;
+  }
+  else {
+   option = false;
+   Pause_Button.setText("PAUSE");
+   speedUpFactor = 0;
+  }
+} //_CODE_:Pause_Button:630141:
 
 
 
@@ -40,9 +49,9 @@ public void createGUI(){
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
   surface.setTitle("Sketch Window");
-  window1 = GWindow.getWindow(this, "Window title", 0, 0, 240, 240, JAVA2D);
+  window1 = GWindow.getWindow(this, "Window title", 0, 0, 240, 140, JAVA2D);
   window1.noLoop();
-  window1.setActionOnClose(G4P.CLOSE_WINDOW);
+  window1.setActionOnClose(G4P.KEEP_OPEN);
   window1.addDrawHandler(this, "win_draw1");
   Time_Scale = new GSlider(window1, 10, 30, 190, 40, 10.0);
   Time_Scale.setShowValue(true);
@@ -56,9 +65,9 @@ public void createGUI(){
   Time_Scale_Title.setText("Time Scale");
   Time_Scale_Title.setOpaque(true);
   Time_Scale_Title.addEventHandler(this, "Time_Changed_Title");
-  button1 = new GButton(window1, 80, 110, 80, 30);
-  button1.setText("PAUSE");
-  button1.addEventHandler(this, "button1_click1");
+  Pause_Button = new GButton(window1, 73, 94, 80, 30);
+  Pause_Button.setText("PAUSE");
+  Pause_Button.addEventHandler(this, "Pause_Start");
   window1.loop();
 }
 
@@ -67,4 +76,4 @@ public void createGUI(){
 GWindow window1;
 GSlider Time_Scale; 
 GTextField Time_Scale_Title; 
-GButton button1; 
+GButton Pause_Button; 

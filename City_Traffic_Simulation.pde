@@ -55,6 +55,11 @@ void draw() {
   }
   
   time += 1*speedUpFactor;
+
+  
+  time += 1*speedUpFactor;
+//=======
+
   for (Building currBuilding : Buildings) {
 
     currBuilding.drawBuilding();
@@ -151,5 +156,6 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
   int n = 1+sn;
   int [] output = {n, numBuildings};
   return output;
+
 
 }
