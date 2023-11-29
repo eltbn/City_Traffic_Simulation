@@ -1,7 +1,7 @@
 import g4p_controls.*;
 
 int roadSize = 50; // for the demo, not sure if this will be a variable for roads
-int selCity = 0; // put this into the GUI later
+int selCity = 1; // put this into the GUI later
 
 
 
@@ -29,12 +29,12 @@ void setup() {
   
   
   
-  //if (buildingData[0].substring(0, 1) != "C" + "1") { println("Amogus");}
+
   
   Road test = new Road(200, 200, 300, 200, 5, 1);
   Roads.add(test);
   
-  generateBuilding();
+  generateBuildings();
   //println
   
 }
@@ -57,39 +57,44 @@ void draw() {
 
 
 
-void generateBuilding() {
+void generateBuildings() {
 
 
-  // find the start and end index of the desired city preset
-  int sn = 0; // emulates a for loop variable, finds the starting index for the desired city preset
+  //// find the start and end index of the desired city preset
+  //int sn = 0; // emulates a for loop variable, finds the starting index for the desired city preset
   
-  String start = str(selCity); // 4 will be changed to the button value from the GUI
-  while (!buildingData[sn].substring(0, 2).equals("C" + start)) {
-    sn ++;
-  }
-   println("final", sn, ":", buildingData[sn]);
+  //String start = str(selCity-1); // 4 will be changed to the button value from the GUI
+  //while (!buildingData[sn].substring(0, 2).equals("C" + start)) {
+  //  sn ++;
+  //}
+  // println("final", sn, ":", buildingData[sn]);
   
-  int en = sn; // index of the last building; continue from the start index
+  //int en = sn; // index of the last building; continue from the start index
   
-  String end = str(selCity+1); // represents the next city or end
-  while (!buildingData[en].substring(0, 2).equals("C" + end)) {
-    en ++;
-  }
-  en --;
-  println("final", en, ":", buildingData[en]);
+  //String end = str(selCity); // represents the next city or end
+  //while (!buildingData[en].substring(0, 2).equals("C" + end)) {
+  //  en ++;
+  //}
+  //en --;
+  //println("final", en, ":", buildingData[en]);
   
-  int numBuildings = en - sn;
-  println(numBuildings);
+  //int numBuildings = en - sn;
+  //println(numBuildings);
+  int [] preset = findPreset(buildingData);
   
-  int n = 1+sn;
-  for (int i = 0; i < numBuildings; i++) {
+  
+  int n = preset[0]; // sn starts at the preset name, 
+  println ("n:", n);
+  for (int i = 0; i < preset[1]; i++) {
+    //println("preset",preset[0]);
     int curr = n + i;
     int yStart = buildingData[curr].indexOf("Y:") + 3;
     float y = float(buildingData[curr].substring(yStart));
     
     int xStart = buildingData[curr].indexOf("X:") + 3;
+    println("index name:",buildingData[curr]);
     float x = float(buildingData[curr].substring(xStart, yStart - 4));
-    println("index:", i, "x value", x, "y value", y);
+    //println("index:", i, "x value", x, "y value", y);
     
     char buildType = buildingData[curr].charAt(3);
     switch (buildType) {
@@ -105,8 +110,37 @@ void generateBuilding() {
         break;
     }
   }
+}
+
+void generateRoads() {
+  int sn = 0;
   
-  //switch
   
+}
+
+
+int [] findPreset(String [] file) { // takes in one of the fileData arrays, outputs the index of the preset name and the number of lines before the next
+  int sn = 0; // emulates a for loop variable, finds the starting index for the desired city preset
   
+  String start = str(selCity-1); // 4 will be changed to the button value from the GUI
+  while (!file[sn].substring(0, 2).equals("C" + start)) {
+    sn ++;
+  }
+   println("final", sn, ":", file[sn]);
+  
+  int en = sn; // index of the last building; continue from the start index
+  
+  String end = str(selCity); // represents the next city or end
+  while (!file[en].substring(0, 2).equals("C" + end)) {
+    en ++;
+  }
+  en --;
+  println("final", en, ":", file[en]);
+  
+  int numBuildings = en - sn;
+  println(numBuildings);
+  
+  int n = 1+sn;
+  int [] output = {n, numBuildings};
+  return output;
 }

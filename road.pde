@@ -14,13 +14,6 @@ ArrayList <Traffic> People_in_Road = new ArrayList<Traffic>();
     
   }
 
-void calculateAngle() {
-  PVector originAngle = new PVector(this.endPoint.x - this.startPoint.x, this.endPoint.x - this.startPoint.y);
-  originAngle.x = cos(originAngle.x); originAngle.y = sin(originAngle.y);
-  
-  
-  
-}
 
 void drawRoad() {
   //strokeWeight(10);

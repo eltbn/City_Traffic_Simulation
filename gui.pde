@@ -33,7 +33,7 @@ public void createGUI(){
   surface.setTitle("Sketch Window");
   window1 = GWindow.getWindow(this, "Window title", 0, 0, 240, 120, JAVA2D);
   window1.noLoop();
-  window1.setActionOnClose(G4P.KEEP_OPEN);
+  window1.setActionOnClose(G4P.CLOSE_WINDOW);
   window1.addDrawHandler(this, "win_draw1");
   Time_Speed = new GSlider(window1, 70, 40, 100, 40, 10.0);
   Time_Speed.setLimits(1.0, 0.0, 2.0);
