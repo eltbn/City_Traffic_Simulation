@@ -19,7 +19,7 @@ ArrayList <Road> Roads = new ArrayList<Road>();
 ArrayList <Building> Buildings = new ArrayList<Building>();
 
 void setup() {
-  size(800, 800);
+  size(700, 700);
   createGUI();
   String [] fileData = loadStrings("roadData.txt"); // represents the current file which that is imported
   roadData = new String [fileData.length];
@@ -55,8 +55,15 @@ void draw() {
   }
   
   time += 1*speedUpFactor;
+<<<<<<< HEAD
   setTime();
 //=======
+=======
+
+  
+  time += 1*speedUpFactor;
+
+>>>>>>> ac94bb746c0ec75cf13ce48a8b253c79133f8148
 
   for (Building currBuilding : Buildings) {
 
