@@ -71,25 +71,6 @@ void generateBuildings() {
 
 
   //// find the start and end index of the desired city preset
-  //int sn = 0; // emulates a for loop variable, finds the starting index for the desired city preset
-  
-  //String start = str(selCity-1); // 4 will be changed to the button value from the GUI
-  //while (!buildingData[sn].substring(0, 2).equals("C" + start)) {
-  //  sn ++;
-  //}
-  // println("final", sn, ":", buildingData[sn]);
-  
-  //int en = sn; // index of the last building; continue from the start index
-  
-  //String end = str(selCity); // represents the next city or end
-  //while (!buildingData[en].substring(0, 2).equals("C" + end)) {
-  //  en ++;
-  //}
-  //en --;
-  //println("final", en, ":", buildingData[en]);
-  
-  //int numBuildings = en - sn;
-  //println(numBuildings);
   int [] preset = findPreset(buildingData);
   
   
@@ -106,7 +87,7 @@ void generateBuildings() {
     float x = float(buildingData[curr].substring(xStart, yStart - 4));
     //println("index:", i, "x value", x, "y value", y);
     
-    char buildType = buildingData[curr].charAt(3);
+    char buildType = buildingData[curr].charAt(3); // takes the character of the inputted number in the string
     switch (buildType) {
       
       case 'B':
@@ -123,7 +104,9 @@ void generateBuildings() {
 }
 
 void generateRoads() {
-  int sn = 0;
+  int [] preset = findPreset(roadData);
+  
+  
   
   
 }
