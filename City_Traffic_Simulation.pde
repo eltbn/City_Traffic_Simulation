@@ -17,6 +17,7 @@ String [] buildingData;
 
 ArrayList <Road> Roads = new ArrayList<Road>();
 ArrayList <Building> Buildings = new ArrayList<Building>();
+ArrayList <Traffic> People = new ArrayList<Traffic>();
 
 void setup() {
   size(700, 700);
@@ -36,8 +37,8 @@ void setup() {
   
 
   
-  //Road test = new Road(200, 200, 300, 200, 5, 1);
-  //Roads.add(test);
+  Traffic test = new Traffic(new PVector(200, 300), 2);
+  People.add(test);
   generateRoads();
   generateBuildings();
   //println
@@ -65,7 +66,15 @@ void draw() {
     currBuilding.drawBuilding();
   }
   
-  noLoop();
+  for (Traffic currTraffic : People) {
+
+    currTraffic.drawTraffic();
+    currTraffic.moveTraffic();
+  }
+  
+  
+  
+  
 }
 
 

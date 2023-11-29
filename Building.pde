@@ -38,5 +38,5 @@ class School extends Building{
 class Bank extends Building{ 
   Bank(PVector p){
     super(p,int(random(50,100)),color(0,255,0));
-  }
+  }  
 }

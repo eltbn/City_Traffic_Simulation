@@ -14,23 +14,20 @@ class Traffic {
     this.Speed = s;
   }
   
-  void move() {
-  
+  void moveTraffic() {
+    this.Pos.add(new PVector(2,0));
     
     
+  }
+  void drawTraffic () {
+    rect(this.Pos.x, this.Pos.y, 10, 10);
   }
   
 }
 
-
-class Pedestrian extends Traffic {
-  Pedestrian (float x, float y, float s) {
-    super(x, y, s);
-  }
-  
-  Pedestrian (PVector p, float s) {
-    super(p, s);
-  }
+  //Pedestrian (PVector p, float s) {
+  //  super(p, s);
+  //}
   
   
   
@@ -38,4 +35,3 @@ class Pedestrian extends Traffic {
   
   
   
-}
