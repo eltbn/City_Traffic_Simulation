@@ -5,6 +5,11 @@ int selCity = 1; // put this into the GUI later
 
 
 
+float time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:01
+float speedUpFactor = 1;
+String inGameTime = "00:00"; // not going to be a string, just a placeholder
+int frameRate = 60;
+
 boolean Builder; // for building a city or choosing a preset city
 
 String [] roadData;
@@ -42,11 +47,16 @@ void setup() {
 
 void draw() {
   background(255);
+  frameRate(frameRate);
  // fill(255);
  
   for (Road currRoad : Roads) {
     currRoad.drawRoad();
   }
+<<<<<<< HEAD
+  
+  time += 1*speedUpFactor;
+=======
   for (Building currBuilding : Buildings) {
 
     currBuilding.drawBuilding();
@@ -126,4 +136,5 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
   int n = 1+sn;
   int [] output = {n, numBuildings};
   return output;
+>>>>>>> be6b55d1958100fd4a96cea800adcde7afc0245f
 }
