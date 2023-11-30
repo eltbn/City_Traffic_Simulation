@@ -31,12 +31,12 @@ public void Pause_Start(GButton source, GEvent event) { //_CODE_:Pause_Button:63
   if (pause_button_option == false) {
    pause_button_option = true;
    Pause_Button.setText("RESUME");
-   speedUpFactor = 1;
+   noLoop();
   }
   else {
    pause_button_option = false;
    Pause_Button.setText("PAUSE");
-   speedUpFactor = 0;
+   loop();
   }
 } //_CODE_:Pause_Button:630141:
 
