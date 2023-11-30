@@ -12,3 +12,18 @@ void makeRoad() {
   // road constructor here
   
 }
+
+
+void keyPressed() {
+  if (key == 'l') {
+    selCity = 2;
+    println(selCity);
+    reset();
+  }
+  else {
+    selCity = 1;
+    println(selCity);
+    reset();
+  }
+  
+}

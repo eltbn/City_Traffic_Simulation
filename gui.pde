@@ -42,8 +42,18 @@ public void Pause_Start(GButton source, GEvent event) { //_CODE_:Pause_Button:63
 
 public void Preset_Changed(GDropList source, GEvent event) { //_CODE_:Preset_Selector:642755:
   selCity = int(Preset_Selector.getSelectedText().substring(5));
-  println(selCity);
-  reset();
+  println("sel",Preset_Selector.getSelectedText().substring(5));
+  println("selllllllllllllllllll");
+  
+  Roads.clear();
+  Buildings.clear();
+  People.clear();
+  clear();
+  generateRoads();
+  generateBuildings();
+  Traffic test = new Traffic(new PVector(0, 200), 2);
+  People.add(test);
+  
 } //_CODE_:Preset_Selector:642755:
 
 
@@ -74,7 +84,7 @@ public void createGUI(){
   Pause_Button = new GButton(window1, 73, 94, 80, 30);
   Pause_Button.setText("PAUSE");
   Pause_Button.addEventHandler(this, "Pause_Start");
-  Preset_Selector = new GDropList(window1, 70, 147, 90, 80, 3, 10);
+  Preset_Selector = new GDropList(window1, 70, 147, 90, 60, 2, 10);
   Preset_Selector.setItems(loadStrings("list_642755"), 0);
   Preset_Selector.addEventHandler(this, "Preset_Changed");
   window1.loop();

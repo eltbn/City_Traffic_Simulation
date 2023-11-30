@@ -37,7 +37,7 @@ void setup() {
   
 
   
-  Traffic test = new Traffic(new PVector(200, 300), 2);
+  Traffic test = new Traffic(new PVector(0, 200), 2);
   People.add(test);
   generateRoads();
   generateBuildings();
@@ -88,7 +88,7 @@ void generateBuildings() {
   int n = preset[0]; // sn starts at the preset name, 
   println ("n:", n);
   for (int i = 0; i < preset[1]; i++) {
-    //println("preset",preset[0]);
+    println("index:", i);
     int curr = n + i;
     int yStart = buildingData[curr].indexOf("Y:") + 3;
     float y = float(buildingData[curr].substring(yStart));
@@ -120,7 +120,6 @@ void generateRoads() {
   int n = preset[0];
   for (int i = 0; i < preset[1]; i++) {
     int curr = n + i;
-    
     int SPStart = roadData[curr].indexOf("SP:")+4;
     println("char at",roadData[curr].charAt(SPStart));
     PVector startPoint = new PVector(int(roadData[curr].substring(SPStart, SPStart + 3)), int(roadData[curr].substring(SPStart+4, SPStart + 7)));
@@ -128,6 +127,7 @@ void generateRoads() {
     
     int EPStart = roadData[curr].indexOf("EP:")+4;
     println("char at",roadData[curr].charAt(EPStart));
+    println(roadData[curr]);
     PVector endPoint = new PVector(int(roadData[curr].substring(EPStart, EPStart + 3)), int(roadData[curr].substring(EPStart+4, EPStart + 7)));
     println("end",endPoint);
     
@@ -136,6 +136,8 @@ void generateRoads() {
   }
 }
 
+//void checkHorizontal(); // roads will have a horizontla variable to skip 
+
 
 int [] findPreset(String [] file) { // takes in one of the fileData arrays, outputs the index of the preset name and the number of lines before the next
   int sn = 0; // emulates a for loop variable, finds the starting index for the desired city preset
@@ -143,6 +145,7 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
   String start = str(selCity-1); // 4 will be changed to the button value from the GUI
   while (!file[sn].substring(0, 2).equals("C" + start)) {
     sn ++;
+    println("sn",sn);
   }
   // println("final", sn, ":", file[sn]);
   
@@ -168,7 +171,7 @@ void reset () {
   Roads.clear();
   Buildings.clear();
   People.clear();
-  
+  clear();
   generateRoads();
   generateBuildings();
   
