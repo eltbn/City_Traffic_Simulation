@@ -51,8 +51,8 @@ public void Preset_Changed(GDropList source, GEvent event) { //_CODE_:Preset_Sel
   clear();
   generateRoads();
   generateBuildings();
-  Traffic test = new Traffic(new PVector(0, 200), 2);
-  People.add(test);
+  //Traffic test = new Traffic(new PVector(0, 200), 2);
+  //People.add(test);
   
 } //_CODE_:Preset_Selector:642755:
 
