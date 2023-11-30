@@ -22,8 +22,20 @@ String convertionRate(float totalTime) {
  return gameTime;
 }
 
+String convertToTimeFormat(int time) {
+  int hours = (time/10) / 60; // Extract hours
+  int minutes = (time/10) % 60; // Extract minutes
+
+  // Ensure hours and minutes are two digits
+  String formattedHours = nf(hours, 2);
+  String formattedMinutes = nf(minutes, 2);
+
+  // Combine hours and minutes with ":" separator
+  return formattedHours + ":" + formattedMinutes;
+}
+
 void setTime() {
  textSize(35);
  fill(204, 0, 50);
- text(convertionRate(time), 450, 600); 
+ text(convertToTimeFormat(time), 450, 600); 
 }
