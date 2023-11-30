@@ -1,6 +1,6 @@
 import g4p_controls.*;
 
-int roadSize = 10; // for the demo, not sure if this will be a variable for roads
+int roadSize = 20; // for the demo, not sure if this will be a variable for roads
 int selCity = 1; // put this into the GUI later
 
 
@@ -56,34 +56,24 @@ void draw() {
   }
   
   time += 1*speedUpFactor;
-<<<<<<< HEAD
-  setTime();
-//=======
-=======
 
+  setTime();
   
   time += 1*speedUpFactor;
 
->>>>>>> ac94bb746c0ec75cf13ce48a8b253c79133f8148
+
 
   for (Building currBuilding : Buildings) {
 
     currBuilding.drawBuilding();
   }
   
-<<<<<<< HEAD
+
   for (Traffic currTraffic : People) {
 
     currTraffic.drawTraffic();
     currTraffic.moveTraffic();
   }
-  
-  
-  
-  
-=======
-  //noLoop();
->>>>>>> fc261a147822c5de312c0e0cac2abeaf8f77467a
 }
 
 
@@ -141,12 +131,9 @@ void generateRoads() {
     PVector endPoint = new PVector(int(roadData[curr].substring(EPStart, EPStart + 3)), int(roadData[curr].substring(EPStart+4, EPStart + 7)));
     println("end",endPoint);
     
-    Road newRoad = new Road(startPoint, endPoint, 1, 1);
+    Road newRoad = new Road(startPoint, endPoint, 1, 1, i);
     Roads.add(newRoad);
   }
-  
-  
-  
 }
 
 
@@ -174,6 +161,15 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
   int n = 1+sn;
   int [] output = {n, numBuildings};
   return output;
+}
 
 
+void reset () {
+  Roads.clear();
+  Buildings.clear();
+  People.clear();
+  
+  generateRoads();
+  generateBuildings();
+  
 }

@@ -40,6 +40,12 @@ public void Pause_Start(GButton source, GEvent event) { //_CODE_:Pause_Button:63
   }
 } //_CODE_:Pause_Button:630141:
 
+public void Preset_Changed(GDropList source, GEvent event) { //_CODE_:Preset_Selector:642755:
+  selCity = int(Preset_Selector.getSelectedText().substring(5));
+  println(selCity);
+  reset();
+} //_CODE_:Preset_Selector:642755:
+
 
 
 // Create all the GUI controls. 
@@ -49,7 +55,7 @@ public void createGUI(){
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
   surface.setTitle("Sketch Window");
-  window1 = GWindow.getWindow(this, "Window title", 0, 0, 240, 140, JAVA2D);
+  window1 = GWindow.getWindow(this, "Window title", 0, 0, 240, 240, JAVA2D);
   window1.noLoop();
   window1.setActionOnClose(G4P.KEEP_OPEN);
   window1.addDrawHandler(this, "win_draw1");
@@ -68,6 +74,9 @@ public void createGUI(){
   Pause_Button = new GButton(window1, 73, 94, 80, 30);
   Pause_Button.setText("PAUSE");
   Pause_Button.addEventHandler(this, "Pause_Start");
+  Preset_Selector = new GDropList(window1, 70, 147, 90, 80, 3, 10);
+  Preset_Selector.setItems(loadStrings("list_642755"), 0);
+  Preset_Selector.addEventHandler(this, "Preset_Changed");
   window1.loop();
 }
 
@@ -77,3 +86,4 @@ GWindow window1;
 GSlider Time_Scale; 
 GTextField Time_Scale_Title; 
 GButton Pause_Button; 
+GDropList Preset_Selector; 

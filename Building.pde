@@ -23,7 +23,6 @@ class Building {
   
   void drawBuilding(){
     fill(this.Colour);
-    println(this.Colour, this.Pos.x);
     rect(this.Pos.x,this.Pos.y, 100, 100);
   }
 }

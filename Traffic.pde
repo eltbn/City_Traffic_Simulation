@@ -1,5 +1,5 @@
 class Traffic {
-  PVector Pos;
+  PVector Pos, Direction = new PVector(1,0);
   float Speed;
   
   
@@ -7,6 +7,7 @@ class Traffic {
   Traffic(float x, float y, float s) {
     this.Pos = new PVector(x, y);
     this.Speed = s;
+    this.Direction = new PVector(1,0);
   }
   
    Traffic(PVector p, float s) {
@@ -15,9 +16,22 @@ class Traffic {
   }
   
   void moveTraffic() {
-    this.Pos.add(new PVector(2,0));
+    this.Pos.add(Direction);
     
-    
+    float closest = 0; // incomplete; for checking people in road
+    for (Road road : Roads) {
+      
+      float check = dist(this.Pos.x, this.Pos.y, road.startPoint.x, road.startPoint.y);
+      if (check < closest) {
+        closest = check;
+      }
+      
+      check = dist(this.Pos.x, this.Pos.y, road.endPoint.x, road.endPoint.y);
+      if (check < closest) {
+        closest = check;
+      }
+      
+    }
   }
   void drawTraffic () {
     rect(this.Pos.x, this.Pos.y, 10, 10);
