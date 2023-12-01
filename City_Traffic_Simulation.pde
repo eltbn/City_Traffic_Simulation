@@ -37,7 +37,7 @@ void setup() {
   
 
   
-  Traffic test = new Traffic(new PVector(0, 200), 2);
+  Traffic test = new Traffic(new PVector(0, 205), 2);
   People.add(test);
   generateRoads();
   generateBuildings();

@@ -11,7 +11,7 @@ Road(PVector sP, PVector eP, int sl, float w) {
   this.endPoint = eP;
   this.speedLimit = sl;
   this.weight = w;
-  this.name = Roads.size();
+  this.name = Roads.size(); // road names are the index of this object in the Roads list
   if (this.startPoint.x == this.endPoint.x) {
     horizontal = true;
   }
@@ -56,5 +56,12 @@ class schoolZone extends Road {
     super(Sp, Ep, 35, 0.5);
     
   }
-  
+}
+
+class Intersection {
+  PVector Pos;
+  Intersection(PVector p) {
+   
+    
+  }
 }

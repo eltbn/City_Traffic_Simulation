@@ -16,14 +16,6 @@ void makeRoad() {
 
 void keyPressed() {
   if (key == 'l') {
-    selCity = 2;
-    println(selCity);
-    resetCity();
+    println(Roads.get(0).name);
   }
-  else {
-    selCity = 1;
-    println(selCity);
-    resetCity();
-  }
-  
 }

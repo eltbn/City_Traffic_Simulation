@@ -3,6 +3,7 @@ class Traffic {
   float Speed;
   
   Road inRoad;
+  ArrayList <Road> Path = new ArrayList <Road>();
   
   
   
@@ -18,13 +19,8 @@ class Traffic {
   }
   
   void moveTraffic() {
-    this.Pos.add(Direction);
+    this.Pos.add(Direction.mult(speedUpFactor));
     
-    for (Road road : Roads) {
-      if (road.endPoint.x - this.Pos.x <= -10) {
-        this.Direction = new PVector (0, 1);
-      }
-    }
   }
   
   
@@ -32,33 +28,14 @@ class Traffic {
   void findRoad() {
     float closest = 0; // incomplete; for checking people in road
     int index = 0;
-    for (int i = 0; i < Roads.size(); i++) { // using generic for loop so that an index number (i) can be used
-      Road road = Roads.get(i); 
+    for (Road road : Roads) { // using generic for loop so that an index number (i) can be used
+      //Road road = Roads.get(i); 
       
-      // Check the distance to Start Points
-      float check = dist(this.Pos.x, this.Pos.y, road.startPoint.x, road.startPoint.y);
-      if (check < closest) {
-        closest = check;
-        index = i;
-      }
-      
-      // Check the distance to End Points
-      check = dist(this.Pos.x, this.Pos.y, road.endPoint.x, road.endPoint.y);
-      if (check < closest) {
-        closest = check;
-        index = i;
-      }
-      
-      
-      if (i == Roads.size()) {
-        Roads.get(index).People_in_Road.add(this);
-     //   this.inRoad = Roads.get(index);
-      }
     }
     
   }
   void drawTraffic () {
-    rect(this.Pos.x, this.Pos.y, 10, 10);
+    rect(this.Pos.x - 5, this.Pos.y - 5, 10, 10);
   }
   
 }
