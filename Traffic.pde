@@ -34,17 +34,22 @@ class Traffic {
     int index = 0;
     for (int i = 0; i < Roads.size(); i++) { // using generic for loop so that an index number (i) can be used
       Road road = Roads.get(i); 
+      
+      // Check the distance to Start Points
       float check = dist(this.Pos.x, this.Pos.y, road.startPoint.x, road.startPoint.y);
       if (check < closest) {
         closest = check;
         index = i;
       }
       
+      // Check the distance to End Points
       check = dist(this.Pos.x, this.Pos.y, road.endPoint.x, road.endPoint.y);
       if (check < closest) {
         closest = check;
         index = i;
       }
+      
+      
       if (i == Roads.size()) {
         Roads.get(index).People_in_Road.add(this);
      //   this.inRoad = Roads.get(index);

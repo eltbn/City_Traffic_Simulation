@@ -9,7 +9,7 @@ void mousePressed() {
 
 void makeRoad() {
   
-  // road constructor here
+  //Road(
   
 }
 
@@ -18,12 +18,12 @@ void keyPressed() {
   if (key == 'l') {
     selCity = 2;
     println(selCity);
-    reset();
+    resetCity();
   }
   else {
     selCity = 1;
     println(selCity);
-    reset();
+    resetCity();
   }
   
 }

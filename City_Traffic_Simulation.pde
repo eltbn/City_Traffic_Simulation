@@ -131,7 +131,7 @@ void generateRoads() {
     PVector endPoint = new PVector(int(roadData[curr].substring(EPStart, EPStart + 3)), int(roadData[curr].substring(EPStart+4, EPStart + 7)));
     println("end",endPoint);
     
-    Road newRoad = new Road(startPoint, endPoint, 1, 1, i);
+    Road newRoad = new Road(startPoint, endPoint, 1, 1);
     Roads.add(newRoad);
   }
 }
@@ -167,7 +167,7 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
 }
 
 
-void reset () {
+void resetCity () {
   Roads.clear();
   Buildings.clear();
   People.clear();
