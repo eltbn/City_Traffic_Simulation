@@ -42,6 +42,9 @@ void setup() {
   People.add(test);
   generateRoads();
   createIntersection();
+  for (Intersection i : Intersections) {
+    println(i.Pos);
+  }
   generateBuildings();
   //println
   
@@ -144,46 +147,63 @@ void generateRoads() {
 
 
 void createIntersection() {
-  Intersection temp = new Intersection(new PVector(0,0)); // placeholder intersection
+  Intersection temp = new Intersection(new PVector(0, 0)); // placeholder intersection
   Intersections.add(temp);
+  
   for (Road road : Roads) {
-    PVector intersectPos = findIntersection(road.startPoint, true);
-    println("intersectPos",intersectPos);
-    if (intersectPos != null) {
-      println("interpos exists");
-      for (int i = 0; i < Intersections.size(); i++) {
-        println("checkPos", intersectPos, Intersections.get(i).Pos, "i is", i);
-        if (Intersections.size() == 1 || i != 0 && intersectPos != Intersections.get(i).Pos) { 
-          println("no duplicate");
-          Intersection intersection = new Intersection(intersectPos); 
-          Intersections.add(intersection);
-          println(intersection.Pos);
-        }
-          else {println("duplicate found");}
-      }
+    PVector startIntersectPos = findIntersection(road.startPoint);
+    PVector endIntersectPos = findIntersection(road.endPoint);
+
+    if (startIntersectPos != null) {
+      addUniqueIntersection(startIntersectPos);
+    }
+    if (endIntersectPos != null) {
+      addUniqueIntersection(endIntersectPos);
     }
   }
+  
   Intersections.remove(temp);
-  println("intersections",Intersections.size());
+  println("Intersections", Intersections.size());
 }
 
-
-PVector findIntersection (PVector currRoad, Boolean startPoint) { // second parameter states which point of the current road to check
-  if (startPoint) {
-    for (Road check : Roads) {
-      if (currRoad == check.startPoint) {
-        return currRoad;
-      }
+void addUniqueIntersection(PVector intersectPos) {
+  boolean isDuplicate = false;
+  
+  for (Intersection existingIntersection : Intersections) {
+    if (existingIntersection.Pos.equals(intersectPos)) {
+      isDuplicate = true;
+      break;
     }
   }
-  else {
-    for (Road check : Roads) {
-      if (currRoad == check.endPoint) {
-        return currRoad;
-      }
+  
+  if (!isDuplicate) {
+    Intersection intersection = new Intersection(intersectPos); 
+    Intersections.add(intersection);
+    println("Adding intersection", intersection.Pos);
+  }
+}
+
+PVector findIntersection(PVector currRoadPoint) {
+  for (Road check : Roads) {
+    if (currRoadPoint.equals(check.startPoint) || currRoadPoint.equals(check.endPoint)) {
+      return currRoadPoint;
     }
   }
   return null;
+}
+
+void removeDuplicate() {
+  for (int i = 0; i < Intersections.size(); i++) {
+    Intersection check = Intersections.get(i);
+    for (int o = 0; o < Intersections.size(); o++) {
+      if (i != o && check.Pos == Intersections.get(o).Pos) {
+      //  println("deleting duplicate");
+        Intersections.remove(Intersections.get(o));
+      }
+      
+    }
+    //println("next");
+  }
 }
 
 
