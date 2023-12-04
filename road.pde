@@ -34,11 +34,6 @@ void drawRoad() {
   else if (!horizontal) {
     rect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x + roadSize, this.endPoint.y - this.startPoint.y + roadSize);
   }
-  fill(255, 0, 0);
-  circle(this.startPoint.x, this.startPoint.y, 10.0);
-  //rect(this.startPoint.x, this.startPoint.y, this.endPoint.x, roadSize);
-  //line(this.startPoint.x, this.startPoint.y, this.endPoint.x, this.endPoint.y);
-
 }
 
 // edits
@@ -72,15 +67,19 @@ class Intersection {
   PVector Pos;
   ArrayList <Road> Connected = new ArrayList <Road>();
   Intersection(PVector p) {
-   
+   this.Pos = p;
     
   }
-  
-  
   void findConnected () {
     
     
   }
+void drawIntersection() {
+  fill(255, 0, 0);
+  circle(this.Pos.x, this.Pos.y, 10);
+  
+}
+  
   
   
 }

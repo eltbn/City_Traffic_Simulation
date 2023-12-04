@@ -41,6 +41,7 @@ void setup() {
   Traffic test = new Traffic(new PVector(0, 205), 2);
   People.add(test);
   generateRoads();
+  createIntersection();
   generateBuildings();
   //println
   
@@ -54,7 +55,10 @@ void draw() {
  
   for (Road currRoad : Roads) {
     currRoad.drawRoad();
-    println(currRoad.horizontal);
+  }
+  
+  for (Intersection currRoad : Intersections) {
+    currRoad.drawIntersection();
   }
   
   time += 1*speedUpFactor;
@@ -140,22 +144,43 @@ void generateRoads() {
 
 
 void createIntersection() {
-  for (Road check : Roads) {
-    PVector intersectPos = findIntersection(check.startPoint);
-    
+  Intersection temp = new Intersection(new PVector(0,0)); // placeholder intersection
+  Intersections.add(temp);
+  for (Road road : Roads) {
+    PVector intersectPos = findIntersection(road.startPoint, true);
+    println("intersectPos",intersectPos);
     if (intersectPos != null) {
-      Intersection intersection = new Intersection(intersectPos); 
+      println("interpos exists");
+      for (int i = 0; i < Intersections.size(); i++) {
+        println("checkPos", intersectPos, Intersections.get(i).Pos, "i is", i);
+        if (Intersections.size() == 1 || i != 0 && intersectPos != Intersections.get(i).Pos) { 
+          println("no duplicate");
+          Intersection intersection = new Intersection(intersectPos); 
+          Intersections.add(intersection);
+          println(intersection.Pos);
+        }
+          else {println("duplicate found");}
+      }
     }
   }
-  
-  
+  Intersections.remove(temp);
+  println("intersections",Intersections.size());
 }
 
 
-PVector findIntersection (PVector currRoad) { // second parameter states which point of the current road to check
-  for (Road check : Roads) {
-    if (currRoad == check.startPoint) {
-      return currRoad;
+PVector findIntersection (PVector currRoad, Boolean startPoint) { // second parameter states which point of the current road to check
+  if (startPoint) {
+    for (Road check : Roads) {
+      if (currRoad == check.startPoint) {
+        return currRoad;
+      }
+    }
+  }
+  else {
+    for (Road check : Roads) {
+      if (currRoad == check.endPoint) {
+        return currRoad;
+      }
     }
   }
   return null;
