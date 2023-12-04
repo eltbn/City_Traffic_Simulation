@@ -5,9 +5,9 @@ String convertionRate(float totalTime) {
  // 1 minute = time/3600
  // 1 hour = time/216,000
  // 1 day = time/5,184,000
- float seconds = totalTime/60;
- float minutes = totalTime/3600;
- float hours = totalTime/216000;
+ float seconds = second();
+ float minutes = minute();
+ float hours = hour();
  
  if (minutes >= 60) {
   minutes -= 60;

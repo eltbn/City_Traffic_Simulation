@@ -16,6 +16,7 @@ String [] roadData;
 String [] buildingData;
 
 ArrayList <Road> Roads = new ArrayList<Road>();
+ArrayList <Intersection> Intersections = new ArrayList <Intersection>();
 ArrayList <Building> Buildings = new ArrayList<Building>();
 ArrayList <Traffic> People = new ArrayList<Traffic>();
 
@@ -53,6 +54,7 @@ void draw() {
  
   for (Road currRoad : Roads) {
     currRoad.drawRoad();
+    println(currRoad.horizontal);
   }
   
   time += 1*speedUpFactor;
@@ -135,6 +137,30 @@ void generateRoads() {
     Roads.add(newRoad);
   }
 }
+
+
+void createIntersection() {
+  for (Road check : Roads) {
+    PVector intersectPos = findIntersection(check.startPoint);
+    
+    if (intersectPos != null) {
+      Intersection intersection = new Intersection(intersectPos); 
+    }
+  }
+  
+  
+}
+
+
+PVector findIntersection (PVector currRoad) { // second parameter states which point of the current road to check
+  for (Road check : Roads) {
+    if (currRoad == check.startPoint) {
+      return currRoad;
+    }
+  }
+  return null;
+}
+
 
 //void checkHorizontal(); // roads will have a horizontla variable to skip 
 
