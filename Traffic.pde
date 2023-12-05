@@ -23,11 +23,11 @@ class Traffic {
     
   }
   
-  float distToNext() {
+ // float distToNext() {
     
+  //}  
     
-    
-  }
+  
   
   
   void determineDirection(PVector p1, PVector p2) {

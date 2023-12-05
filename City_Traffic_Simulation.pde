@@ -48,12 +48,12 @@ void setup() {
   
   Traffic test = new Traffic(new PVector(0, 205), 2);
   People.add(test);
-  test.Path.add(Intersections.get(0));
-  test.Path.add(Intersections.get(1));
-  test.Path.add(Intersections.get(7
-  ));
+ // test.Path.add(Intersections.get(0));
+  //test.Path.add(Intersections.get(1));
+  //test.Path.add(Intersections.get(7));
   generateRoads();
   createIntersection();
+  println("num roads", Roads.size());
   for (Intersection i : Intersections) {
     println("intersections:",i.Pos, "connected to", i.Connected.size());
     
