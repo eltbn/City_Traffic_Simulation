@@ -43,7 +43,8 @@ void setup() {
   generateRoads();
   createIntersection();
   for (Intersection i : Intersections) {
-    println(i.Pos);
+    println("intersections:",i.Pos, "connected to", i.Connected.size());
+    
   }
   generateBuildings();
   //println
@@ -147,68 +148,77 @@ void generateRoads() {
 
 
 void createIntersection() {
-  Intersection temp = new Intersection(new PVector(0, 0)); // placeholder intersection
-  Intersections.add(temp);
-  
-  for (Road road : Roads) {
-    PVector startIntersectPos = findIntersection(road.startPoint);
-    PVector endIntersectPos = findIntersection(road.endPoint);
-
-    if (startIntersectPos != null) {
-      addUniqueIntersection(startIntersectPos);
-    }
-    if (endIntersectPos != null) {
-      addUniqueIntersection(endIntersectPos);
+  for (int i = 0; i < Roads.size() - 1; i++) {
+    for (int j = i + 1; j < Roads.size(); j++) {
+      Road roadA = Roads.get(i);
+      Road roadB = Roads.get(j);
+      
+      PVector intersection = findIntersection(roadA, roadB);
+      if (intersection != null) {
+        addIntersection(intersection, roadA, roadB);
+      }
     }
   }
   
-  Intersections.remove(temp);
+  // Add start or end points as intersections
+  for (Road road : Roads) {
+    addLoneIntersection(road.startPoint, road);
+    addLoneIntersection(road.endPoint, road);
+  }
+  
   println("Intersections", Intersections.size());
 }
 
-void addUniqueIntersection(PVector intersectPos) {
+
+PVector findIntersection(Road roadA, Road roadB) {
+  if ((roadA.horizontal && roadB.horizontal) || (!roadA.horizontal && !roadB.horizontal)) {
+    return null; // If both lines are horizontal or vertical, or if both are neither, they don't intersect
+  }
+
+  float x, y;
+  
+  if (roadA.horizontal) {
+    x = roadB.startPoint.x;
+    y = roadA.startPoint.y;
+  } 
+  else {
+    x = roadA.startPoint.x;
+    y = roadB.startPoint.y;
+  }
+  
+  return new PVector(x, y);
+}
+
+void addIntersection(PVector intersectPos, Road roadA, Road roadB) {
   boolean isDuplicate = false;
   
   for (Intersection existingIntersection : Intersections) {
     if (existingIntersection.Pos.equals(intersectPos)) {
       isDuplicate = true;
-      break;
+      return; // end the function prematurely
     }
   }
   
   if (!isDuplicate) {
     Intersection intersection = new Intersection(intersectPos); 
     Intersections.add(intersection);
-    println("Adding intersection", intersection.Pos);
+    intersection.addConnected(roadA);
+    intersection.addConnected(roadB);
   }
 }
 
-PVector findIntersection(PVector currRoadPoint) {
-  for (Road check : Roads) {
-    if (currRoadPoint.equals(check.startPoint) || currRoadPoint.equals(check.endPoint)) {
-      return currRoadPoint;
+void addLoneIntersection(PVector point, Road road) {
+  for (Intersection existingIntersection : Intersections) {
+    if (existingIntersection.Pos.equals(point)) {
+      return; // If the point is already an intersection, skip creating another intersection object
     }
   }
-  return null;
+  
+  // If it's not already an intersection, add it
+  Intersection intersection = new Intersection(point); 
+  Intersections.add(intersection);
+  intersection.addConnected(road);
 }
-
-void removeDuplicate() {
-  for (int i = 0; i < Intersections.size(); i++) {
-    Intersection check = Intersections.get(i);
-    for (int o = 0; o < Intersections.size(); o++) {
-      if (i != o && check.Pos == Intersections.get(o).Pos) {
-      //  println("deleting duplicate");
-        Intersections.remove(Intersections.get(o));
-      }
-      
-    }
-    //println("next");
-  }
-}
-
-
-//void checkHorizontal(); // roads will have a horizontla variable to skip 
-
 
 int [] findPreset(String [] file) { // takes in one of the fileData arrays, outputs the index of the preset name and the number of lines before the next
   int sn = 0; // emulates a for loop variable, finds the starting index for the desired city preset

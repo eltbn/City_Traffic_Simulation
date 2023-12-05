@@ -29,10 +29,10 @@ Road(PVector sP, PVector eP, int sl, float w) {
 void drawRoad() {
   fill(0);  
   if (horizontal) { // this conditional statment is required so that roads are drawn as squares
-    rect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x + roadSize, this.endPoint.y - this.startPoint.y + roadSize);
+    rect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y + roadSize);
   }
   else if (!horizontal) {
-    rect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x + roadSize, this.endPoint.y - this.startPoint.y + roadSize);
+    rect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x + roadSize, this.endPoint.y - this.startPoint.y);
   }
 }
 
@@ -41,10 +41,11 @@ void weightcalculation(){
  
   
   }
+
   
-  
-  //super.
 }
+
+
 
 
 class Highway extends Road {
@@ -60,26 +61,4 @@ class schoolZone extends Road {
     super(Sp, Ep, 35, 0.5);
     
   }
-}
-
-
-class Intersection {
-  PVector Pos;
-  ArrayList <Road> Connected = new ArrayList <Road>();
-  Intersection(PVector p) {
-   this.Pos = p;
-    
-  }
-  void findConnected () {
-    
-    
-  }
-void drawIntersection() {
-  fill(255, 0, 0);
-  circle(this.Pos.x, this.Pos.y, 10);
-  
-}
-  
-  
-  
 }
