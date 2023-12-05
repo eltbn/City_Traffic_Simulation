@@ -21,8 +21,7 @@ ArrayList <Building> Buildings = new ArrayList<Building>();
 ArrayList <Traffic> People = new ArrayList<Traffic>();
 
 
-HashMap<PVector,String> direction = new HashMap<PVector,String>(); // hashmaps are dictionaries, it returns the second data type when the first data type is input 
-
+HashMap<PVector, String> direction = new HashMap<PVector, String>(); // hashmaps are dictionaries, it returns the second data type when the first data type is input 
 
 
 
@@ -41,16 +40,15 @@ void setup() {
   buildingData = fileData;
  // println(buildingData[1]);
   
+  direction.put(new PVector(1,0),"right");
+  direction.put(new PVector(0,1),"up");
+  direction.put(new PVector(1,0),"l");
+  direction.put(new PVector(1,0),"up");
   
-  
-  
-
   
   Traffic test = new Traffic(new PVector(0, 205), 2);
   People.add(test);
- // test.Path.add(Intersections.get(0));
-  //test.Path.add(Intersections.get(1));
-  //test.Path.add(Intersections.get(7));
+
   generateRoads();
   createIntersection();
   println("num roads", Roads.size());
@@ -264,6 +262,7 @@ void resetCity () {
   Roads.clear();
   Buildings.clear();
   People.clear();
+  Intersections.clear();
   clear();
   generateRoads();
   generateBuildings();

@@ -21,10 +21,18 @@ class Traffic {
   void moveTraffic() {
     this.Pos.add(Direction.mult(speedUpFactor));
     
+    
+    
+    //distToNext(direction);
   }
   
- // float distToNext() {
-    
+  //float distToNext(char d) {
+  //  switch(d) {
+      
+      
+      
+      
+  //  }
   //}  
     
   
