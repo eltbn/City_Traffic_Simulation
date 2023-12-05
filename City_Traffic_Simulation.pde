@@ -20,6 +20,14 @@ ArrayList <Intersection> Intersections = new ArrayList <Intersection>();
 ArrayList <Building> Buildings = new ArrayList<Building>();
 ArrayList <Traffic> People = new ArrayList<Traffic>();
 
+
+HashMap<PVector,String> direction = new HashMap<PVector,String>(); // hashmaps are dictionaries, it returns the second data type when the first data type is input 
+
+
+
+
+
+
 void setup() {
   size(700, 700);
   createGUI();
@@ -40,6 +48,10 @@ void setup() {
   
   Traffic test = new Traffic(new PVector(0, 205), 2);
   People.add(test);
+  test.Path.add(Intersections.get(0));
+  test.Path.add(Intersections.get(1));
+  test.Path.add(Intersections.get(7
+  ));
   generateRoads();
   createIntersection();
   for (Intersection i : Intersections) {
@@ -170,14 +182,14 @@ void createIntersection() {
 }
 
 
-PVector findIntersection(Road roadA, Road roadB) {
+PVector findIntersection(Road roadA, Road roadB) {  // since all roads will only be horizontal/vertical, points can be found geometrically instead of from formulas
   if ((roadA.horizontal && roadB.horizontal) || (!roadA.horizontal && !roadB.horizontal)) {
     return null; // If both lines are horizontal or vertical, or if both are neither, they don't intersect
   }
 
   float x, y;
   
-  if (roadA.horizontal) {
+  if (roadA.horizontal) { 
     x = roadB.startPoint.x;
     y = roadA.startPoint.y;
   } 

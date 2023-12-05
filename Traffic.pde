@@ -3,7 +3,7 @@ class Traffic {
   float Speed;
   
   Road inRoad;
-  ArrayList <Road> Path = new ArrayList <Road>();
+  ArrayList <Intersection> Path = new ArrayList <Intersection>();
   
   
   
@@ -23,7 +23,17 @@ class Traffic {
     
   }
   
+  float distToNext() {
+    
+    
+    
+  }
   
+  
+  void determineDirection(PVector p1, PVector p2) {
+    Direction = new PVector(p2.x - p1.x, p1.y - p2.y);
+    
+  }
   
   void findRoad() {
     float closest = 0; // incomplete; for checking people in road
