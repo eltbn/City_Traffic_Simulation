@@ -5,7 +5,7 @@ int speedLimit;
 float weight, max, min; // max and min are the max and min of x values if horizontal, and y values if vertical, they are variables so that they can nbe easily accessed
 Boolean horizontal; // expressed as a boolean since there are only 2 possibilities for a road; indicates if traffic should check x or y things such as drawing roads
 ArrayList <Traffic> People_in_Road = new ArrayList<Traffic>();
-Node s,e;
+
 Road(PVector sP, PVector eP, int sl, float w) {
   this.startPoint = sP;
   this.endPoint = eP;

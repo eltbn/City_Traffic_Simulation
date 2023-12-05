@@ -21,7 +21,7 @@ ArrayList <Building> Buildings = new ArrayList<Building>();
 ArrayList <Traffic> People = new ArrayList<Traffic>();
 
 
-HashMap<PVector, String> direction = new HashMap<PVector, String>(); // hashmaps are dictionaries, it returns the second data type when the first data type is input 
+HashMap<PVector, String> findDirection = new HashMap<PVector, String>(); // hashmap returns the value when the first value (key) is input 
 
 
 
@@ -40,10 +40,10 @@ void setup() {
   buildingData = fileData;
  // println(buildingData[1]);
   
-  direction.put(new PVector(1,0),"right");
-  direction.put(new PVector(0,1),"up");
-  direction.put(new PVector(1,0),"l");
-  direction.put(new PVector(1,0),"up");
+  findDirection.put(new PVector(1,0),"right");
+  findDirection.put(new PVector(0,1),"up");
+  findDirection.put(new PVector(1,0),"l");
+  findDirection.put(new PVector(1,0),"up");
   
   
   Traffic test = new Traffic(new PVector(0, 205), 2);

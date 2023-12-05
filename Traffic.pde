@@ -23,17 +23,18 @@ class Traffic {
     
     
     
-    //distToNext(direction);
+   // distToNext(charAt(Direction.getValue(Direction)));
   }
   
-  //float distToNext(char d) {
-  //  switch(d) {
+  float distToNext(char d) {
+    switch(d) {
       
       
       
       
-  //  }
-  //}  
+    }
+    return 0.0;
+  }  
     
   
   
