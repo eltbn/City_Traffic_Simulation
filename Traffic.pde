@@ -1,6 +1,7 @@
 class Traffic {
   PVector Pos, Direction = new PVector(1,0);
   float Speed;
+  int currentIndex = 0; // represents the index of the path arrayList, this is done so that the whole arrayList can be cleared at once when reaching the destination
   
   Road inRoad;
   ArrayList <Intersection> Path = new ArrayList <Intersection>();
@@ -22,19 +23,12 @@ class Traffic {
     this.Pos.add(Direction.mult(speedUpFactor));
     
     
-   if (inRoad != null && distToNext(findDirection.get(Direction).charAt(0))) {
-      // Move to the next road in the path if available
-      int currentIndex = Path.indexOf(currentRoad.startIntersection);
-      if (currentIndex < Path.size() - 1) {
-        Intersection nextIntersection = Path.get(currentIndex + 1);
-        currentRoad = findRoadBetweenIntersections(currentRoad.startIntersection, nextIntersection);
-      } else {
-        currentRoad = null; // Traffic reached the end of the path
-      }
+   if (inRoad != null && reachedNextIntersection()) {
+      currentIndex ++;
+      
+      roadBetween(Path.get(currentIndex), Path.get(currentIndex+1));
     }
-   // distToNext(charAt(Direction.getValue(Direction)));
   }
-  
   float distToNext(char d) {
     switch(d) {
       
@@ -45,9 +39,8 @@ class Traffic {
     return 0.0;
   }  
     
-  boolean reachedNextIntersection() {
-    // Implement logic to check if the traffic has reached the end of the current road
-    
+  boolean reachedNextIntersection() { // calculates distance of the objects position to its target intersection, returns true if it has reached it
+
     // Check if the traffic's position is close to the end point of the current road
     float distanceToEnd = PVector.dist(this.Pos, inRoad.endPoint);
     
@@ -61,14 +54,19 @@ class Traffic {
     
   }
   
-  void findRoad() {
-    float closest = 0; // incomplete; for checking people in road
-    int index = 0;
-    for (Road road : Roads) { // using generic for loop so that an index number (i) can be used
-      //Road road = Roads.get(i); 
-      
+  Road roadBetween(Intersection start, Intersection end) {
+    // Find the road between two intersections based on their positions (start and end points)
+    PVector startPos = start.Pos;
+    PVector endPos = end.Pos;
+
+    for (Road road : Roads) {
+      if (road.startPoint.equals(startPos) && road.endPoint.equals(endPos) || 
+      road.startPoint.equals(endPos) && road.endPoint.equals(startPos)) { // checks if the start and end intersections positions are equal to the road start and end points
+            
+        return road; // Return the road in between the intersections
+      }
     }
-    
+    return null; // No road found between the intersections
   }
   
   void drawTraffic () {
