@@ -46,8 +46,7 @@ void setup() {
   findDirection.put(new PVector(1,0),"up");
   
   
-  Traffic test = new Traffic(new PVector(0, 205), 2);
-  People.add(test);
+  
 
   generateRoads();
   createIntersection();
@@ -59,6 +58,8 @@ void setup() {
   generateBuildings();
   //println
   
+  Traffic test = new Traffic(new PVector(0, 205), 2);
+  People.add(test);
 }
 
 

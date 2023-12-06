@@ -2,57 +2,60 @@ class Traffic {
   PVector Pos, Direction = new PVector(1,0);
   float Speed;
   int currentIndex = 0; // represents the index of the path arrayList, this is done so that the whole arrayList can be cleared at once when reaching the destination
-  
+  Boolean reached = false;
   Road inRoad;
   ArrayList <Intersection> Path = new ArrayList <Intersection>();
   
   
-  
-  Traffic(float x, float y, float s) {
-    this.Pos = new PVector(x, y);
-    this.Speed = s;
-    this.Direction = new PVector(1,0);
-  }
-  
    Traffic(PVector p, float s) {
     this.Pos = p;
     this.Speed = s;
+    Path.add(Intersections.get(5));
+    Path.add(Intersections.get(0));
+    Path.add(Intersections.get(1));
+    Path.add(Intersections.get(3));
+    inRoad = roadBetween(Path.get(0), Path.get(1)); // calling this function so that traffic is initialized with their current road set
   }
+  
+  void drawTraffic () {
+    rect(this.Pos.x - 5, this.Pos.y - 5, 10, 10);
+  }
+  
   
   void moveTraffic() {
     this.Pos.add(Direction.mult(speedUpFactor));
-    
-    
-   if (inRoad != null && reachedNextIntersection()) {
+    if (!reached) {
+   if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) {
+     println("reached target");
       currentIndex ++;
       
-      roadBetween(Path.get(currentIndex), Path.get(currentIndex+1));
+      if (currentIndex + 1 < Path.size()) {
+      inRoad = roadBetween(Path.get(currentIndex), Path.get(currentIndex+1));
+      
+      Direction = determineDirection(Path.get(currentIndex).Pos, Path.get(currentIndex+1).Pos);
+      }
+      else { Direction = new PVector (0, 0); reached = true;}
+    }
     }
   }
-  float distToNext(char d) {
-    switch(d) {
-      
-      
-      
-      
-    }
-    return 0.0;
-  }  
-    
-  boolean reachedNextIntersection() { // calculates distance of the objects position to its target intersection, returns true if it has reached it
+  
+  
+  
+
+  boolean reachedNextIntersection(PVector target) { // calculates distance of the objects position to its target intersection, returns true if it has reached it
 
     // Check if the traffic's position is close to the end point of the current road
-    float distanceToEnd = PVector.dist(this.Pos, inRoad.endPoint);
+    float distanceToTarget = PVector.dist(this.Pos, target);
     
     // If the distance to the end point is less than the threshold, consider it reached
-    return distanceToEnd < 5;
+    return distanceToTarget < 10;
   }
   
   
-  void determineDirection(PVector p1, PVector p2) {
-    Direction = new PVector(p2.x - p1.x, p1.y - p2.y);
-    
-  }
+  PVector determineDirection(PVector p1, PVector p2) {
+    return new PVector(constrain(p2.x - p1.x, -1, 1), constrain(p2.y - p1.y, -1, 1));
+}
+
   
   Road roadBetween(Intersection start, Intersection end) {
     // Find the road between two intersections based on their positions (start and end points)
@@ -69,9 +72,6 @@ class Traffic {
     return null; // No road found between the intersections
   }
   
-  void drawTraffic () {
-    rect(this.Pos.x - 5, this.Pos.y - 5, 10, 10);
-  }
   
 }
 
