@@ -22,7 +22,16 @@ class Traffic {
     this.Pos.add(Direction.mult(speedUpFactor));
     
     
-    
+   if (inRoad != null && distToNext(findDirection.get(Direction).charAt(0))) {
+      // Move to the next road in the path if available
+      int currentIndex = Path.indexOf(currentRoad.startIntersection);
+      if (currentIndex < Path.size() - 1) {
+        Intersection nextIntersection = Path.get(currentIndex + 1);
+        currentRoad = findRoadBetweenIntersections(currentRoad.startIntersection, nextIntersection);
+      } else {
+        currentRoad = null; // Traffic reached the end of the path
+      }
+    }
    // distToNext(charAt(Direction.getValue(Direction)));
   }
   
@@ -36,7 +45,15 @@ class Traffic {
     return 0.0;
   }  
     
-  
+  boolean reachedNextIntersection() {
+    // Implement logic to check if the traffic has reached the end of the current road
+    
+    // Check if the traffic's position is close to the end point of the current road
+    float distanceToEnd = PVector.dist(this.Pos, inRoad.endPoint);
+    
+    // If the distance to the end point is less than the threshold, consider it reached
+    return distanceToEnd < 5;
+  }
   
   
   void determineDirection(PVector p1, PVector p2) {
@@ -53,6 +70,7 @@ class Traffic {
     }
     
   }
+  
   void drawTraffic () {
     rect(this.Pos.x - 5, this.Pos.y - 5, 10, 10);
   }

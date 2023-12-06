@@ -40,14 +40,8 @@ void drawRoad() {
 void weightcalculation(){
  
   
-  }
-
-  
 }
-
-
-
-
+}
 class Highway extends Road {
   Highway(PVector Sp, PVector Ep) {
     super(Sp, Ep, 80, 1.0);
