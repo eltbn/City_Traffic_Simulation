@@ -4,15 +4,29 @@ class Building { //
   Boolean enterable;
   color Colour;
   
+  int [] Entrances;
+  
  Intersection [] Entrance; // up to 4 points where traffic can enter a building
  
- Building(PVector p, int c, color col){
+ Building(PVector p, int c, color col, int [] E){
     this.Pos = p;
     this.capacity= c; 
     this.numpeople = 0;
     this.enterable = true;
     this.Colour = col;
+    this.Entrances = E;
   }
+  
+  void placeEntrances() {
+    for (int i = 0; i < Entrances.length; i++) {
+      
+      
+    }
+    
+    
+    
+  }
+  
   
   void updateB(){
     if (this.capacity<=this.numpeople){

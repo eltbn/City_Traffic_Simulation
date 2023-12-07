@@ -111,8 +111,24 @@ void generateBuildings() {
   for (int i = 0; i < preset[1]; i++) {
     println("index:", i);
     int curr = n + i;
+    
+    
+    int eStart = buildingData[curr].indexOf("E:") + 3; // e parameter specifies the direction of entrances the building has (up, down, left, right)
+    int numEntrances = buildingData[curr].length() - eStart;
+    println("num entrances",numEntrances);
+    char [] Entrances = new char[numEntrances];
+    int currEntrance = 0; // acts as a for loop variable, will increment each loop 
+    
+    for (int o = eStart; o < buildingData[curr].length(); o ++) {
+      println(o);
+      Entrances[currEntrance] = buildingData[curr].charAt(o);
+      currEntrance ++;
+    }
+    println(Entrances);
+    
     int yStart = buildingData[curr].indexOf("Y:") + 3;
-    float y = float(buildingData[curr].substring(yStart));
+    println("substring",yStart, eStart - 4);
+    float y = float(buildingData[curr].substring(yStart, eStart - 4));
     
     int xStart = buildingData[curr].indexOf("X:") + 3;
     println("index name:",buildingData[curr]);
