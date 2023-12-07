@@ -1,6 +1,6 @@
 import g4p_controls.*;
 
-int roadSize = 20; // for the demo, not sure if this will be a variable for roads
+int roadSize = 30; // for the demo, not sure if this will be a variable for roads
 int selCity = 1; // put this into the GUI later
 
 
@@ -58,7 +58,7 @@ void setup() {
   generateBuildings();
   //println
   
-  Traffic test = new Traffic(new PVector(0, 205), 2);
+  Traffic test = new Traffic(new PVector(-20, 205), 2);
   People.add(test);
 }
 

@@ -1,9 +1,11 @@
-class Building {
+class Building { //
   int capacity,numpeople;
   PVector Pos;
   Boolean enterable;
   color Colour;
   
+ Intersection [] Entrance; // up to 4 points where traffic can enter a building
+ 
  Building(PVector p, int c, color col){
     this.Pos = p;
     this.capacity= c; 
@@ -24,6 +26,19 @@ class Building {
   void drawBuilding(){
     fill(this.Colour);
     rect(this.Pos.x,this.Pos.y, 100, 100);
+  }
+  
+  
+  
+  
+  void spawnTraffic() {
+    
+    Building Destination = Buildings.get(int(random(0, Buildings.size()-1)));
+    while (Destination != this) { // while the random destination is not this building
+      Destination = Buildings.get(int(random(0, Buildings.size()-1)));
+    }
+    Traffic newTraffic = new Traffic(new PVector(-10, 205), 2);
+    
   }
 }
 
