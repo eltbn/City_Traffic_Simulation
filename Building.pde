@@ -32,7 +32,11 @@ class Building { //
     
     
     
+<<<<<<< HEAD
    }
+=======
+  //}
+>>>>>>> b2614f8b2c1118012fef28ac5b8bf9cc287b2f49
   
   
   void updateB(){
