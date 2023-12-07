@@ -30,7 +30,7 @@ class Building { //
     
     
     
-  }
+  //}
   
   
   void updateB(){
