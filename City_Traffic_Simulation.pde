@@ -9,7 +9,7 @@ int time = 0; // this will be the global time variable used, 1 second = 60 secon
 float speedUpFactor = 1;
 String inGameTime = "00:00"; // not going to be a string, just a placeholder
 int frameRate = 60;
-
+ 
 boolean Builder; // for building a city or choosing a preset city
 
 String [] roadData;

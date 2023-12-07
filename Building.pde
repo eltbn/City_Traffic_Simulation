@@ -6,22 +6,27 @@ class Building { //
   
   int [] Entrances;
   
- Intersection [] Entrance; // up to 4 points where traffic can enter a building
+ char [] Entrance; // up to 4 points where traffic can enter a building
  
- Building(PVector p, int c, color col, int [] E){
+ Building(PVector p, int c, color col){
     this.Pos = p;
     this.capacity= c; 
     this.numpeople = 0;
     this.enterable = true;
     this.Colour = col;
-    this.Entrances = E;
+   // this.Entrances = E;
   }
   
-  void placeEntrances() {
-    for (int i = 0; i < Entrances.length; i++) {
-      
-      
-    }
+  //void placeEntrances() {
+  //  for (int i = 0; i < Entrances.length; i++) {
+  //    switch (this.Entrance[i]) {
+  //      case 'u':
+  //        for (Intersection point
+          
+        
+        
+  //    }
+  //  }
     
     
     
