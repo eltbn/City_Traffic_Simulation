@@ -5,3 +5,9 @@ class Node{
   
   int[][] connections;
 }
+
+
+ArrayList<Node>Path (Node Sp,Node Ep){
+  ArrayList<Node>Pathsent = new ArrayList<Node>();
+  return Pathsent;
+}
