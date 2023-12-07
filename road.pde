@@ -41,7 +41,7 @@ void drawRoad() {
 
 // edits
 void weightcalculation(){
- this.weight = dist(this.Sp,this.Ep);
+ this.weight = dist(this.startPoint.x, this.startPoint.y, this.endPoint.x, this.endPoint.y);
   
 }
 }
