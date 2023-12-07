@@ -295,5 +295,6 @@ void resetCity () {
   clear();
   generateRoads();
   generateBuildings();
+  createIntersection();
   
 }
