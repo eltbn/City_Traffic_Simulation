@@ -17,26 +17,20 @@ class Building { //
    // this.Entrances = E;
   }
   
-  void placeEntrances() {
-    for (int i = 0; i < Entrances.length; i++) {
-      switch (this.Entrance[i]) {
-        case 'u':
-          for (Intersection point : Intersections); {
-            if (this.Pos.x <= point.Pos.x) {
+  //void placeEntrances() {
+  //  for (int i = 0; i < Entrances.length; i++) {
+  //    switch (this.Entrance[i]) {
+  //      case 'u':
+  //        for (Intersection point : Intersections); {
+  //          if (this.Pos.x <= point.Pos.x) {
               
-            }
+  //          }
         
-          }
-      }
-    }
-    
-    
-    
-<<<<<<< HEAD
-   }
-=======
+  //        }
+  //    }
+  //  }
   //}
->>>>>>> b2614f8b2c1118012fef28ac5b8bf9cc287b2f49
+  
   
   
   void updateB(){

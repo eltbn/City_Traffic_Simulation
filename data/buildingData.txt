@@ -9,6 +9,7 @@ T: School X: 600 Y: 300 E: udlr
 T: School X: 0 Y: 300 E: udlr
 C2:
 C3:
+T: Bank X: 0 Y: 0 E: udlr
 C4:
 C5:
 C6:
