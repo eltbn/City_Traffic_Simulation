@@ -17,20 +17,22 @@ class Building { //
    // this.Entrances = E;
   }
   
-  //void placeEntrances() {
-  //  for (int i = 0; i < Entrances.length; i++) {
-  //    switch (this.Entrance[i]) {
-  //      case 'u':
-  //        for (Intersection point
-          
+  void placeEntrances() {
+    for (int i = 0; i < Entrances.length; i++) {
+      switch (this.Entrance[i]) {
+        case 'u':
+          for (Intersection point : Intersections); {
+            if (this.Pos.x <= point.Pos.x) {
+              
+            }
         
-        
-  //    }
-  //  }
+          }
+      }
+    }
     
     
     
-  }
+   }
   
   
   void updateB(){
@@ -59,8 +61,8 @@ class Building { //
     Traffic newTraffic = new Traffic(new PVector(-10, 205), 2);
     
   }
-}
 
+}
 
 class School extends Building{ 
   School(PVector p){
