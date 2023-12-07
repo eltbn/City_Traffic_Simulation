@@ -68,8 +68,8 @@ void draw() {
   frameRate(frameRate);
  // fill(255);
  
-  for (Road currRoad : Roads) {
-    currRoad.drawRoad();
+  for (int i = 0; i < Roads.size(); i++) {
+    Roads.get(i).drawRoad();
   }
   
   for (Intersection currRoad : Intersections) {
