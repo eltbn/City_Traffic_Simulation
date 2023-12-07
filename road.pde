@@ -41,7 +41,7 @@ void drawRoad() {
 
 // edits
 void weightcalculation(){
- 
+ this.weight = dist(this.Sp,this.Ep);
   
 }
 }

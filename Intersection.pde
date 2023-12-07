@@ -1,6 +1,11 @@
 class Intersection { // acts as a node for djikstra's algorithm
   PVector Pos;
   ArrayList <Road> Connected = new ArrayList <Road>();
+  Intersection Prevnode;
+  int mindist;
+  int [][]connections;
+  
+  
   Intersection(PVector p) {
    this.Pos = p;
     
