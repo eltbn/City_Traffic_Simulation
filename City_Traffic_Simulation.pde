@@ -1,6 +1,6 @@
 import g4p_controls.*;
 
-int roadSize = 20; // for the demo, not sure if this will be a variable for roads
+int roadSize = 30; // for the demo, not sure if this will be a variable for roads
 int selCity = 1; // put this into the GUI later
 
 
@@ -21,7 +21,7 @@ ArrayList <Building> Buildings = new ArrayList<Building>();
 ArrayList <Traffic> People = new ArrayList<Traffic>();
 
 
-HashMap<PVector, String> direction = new HashMap<PVector, String>(); // hashmaps are dictionaries, it returns the second data type when the first data type is input 
+HashMap<PVector, String> findDirection = new HashMap<PVector, String>(); // hashmap returns the value when the first value (key) is input 
 
 
 
@@ -40,14 +40,13 @@ void setup() {
   buildingData = fileData;
  // println(buildingData[1]);
   
-  direction.put(new PVector(1,0),"right");
-  direction.put(new PVector(0,1),"up");
-  direction.put(new PVector(1,0),"l");
-  direction.put(new PVector(1,0),"up");
+  findDirection.put(new PVector(1,0),"right");
+  findDirection.put(new PVector(0,1),"up");
+  findDirection.put(new PVector(1,0),"l");
+  findDirection.put(new PVector(1,0),"up");
   
   
-  Traffic test = new Traffic(new PVector(0, 205), 2);
-  People.add(test);
+  
 
   generateRoads();
   createIntersection();
@@ -59,6 +58,8 @@ void setup() {
   generateBuildings();
   //println
   
+  Traffic test = new Traffic(new PVector(-20, 205), 2);
+  People.add(test);
 }
 
 
@@ -110,8 +111,24 @@ void generateBuildings() {
   for (int i = 0; i < preset[1]; i++) {
     println("index:", i);
     int curr = n + i;
+    
+    
+    int eStart = buildingData[curr].indexOf("E:") + 3; // e parameter specifies the direction of entrances the building has (up, down, left, right)
+    int numEntrances = buildingData[curr].length() - eStart;
+    println("num entrances",numEntrances);
+    char [] Entrances = new char[numEntrances];
+    int currEntrance = 0; // acts as a for loop variable, will increment each loop 
+    
+    for (int o = eStart; o < buildingData[curr].length(); o ++) {
+      println(o);
+      Entrances[currEntrance] = buildingData[curr].charAt(o);
+      currEntrance ++;
+    }
+    println(Entrances);
+    
     int yStart = buildingData[curr].indexOf("Y:") + 3;
-    float y = float(buildingData[curr].substring(yStart));
+    println("substring",yStart, eStart - 4);
+    float y = float(buildingData[curr].substring(yStart, eStart - 4));
     
     int xStart = buildingData[curr].indexOf("X:") + 3;
     println("index name:",buildingData[curr]);
