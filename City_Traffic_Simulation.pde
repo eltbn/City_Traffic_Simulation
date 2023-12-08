@@ -64,6 +64,8 @@ void setup() {
 
 
 void draw() {
+
+  
   background(255);
   frameRate(frameRate);
  // fill(255);
@@ -113,6 +115,8 @@ void generateBuildings() {
     int curr = n + i;
     
     
+    
+    
     int eStart = buildingData[curr].indexOf("E:") + 3; // e parameter specifies the direction of entrances the building has (up, down, left, right)
     int numEntrances = buildingData[curr].length() - eStart;
     println("num entrances",numEntrances);
@@ -124,11 +128,19 @@ void generateBuildings() {
       Entrances[currEntrance] = buildingData[curr].charAt(o);
       currEntrance ++;
     }
+   
     println(Entrances);
+    
+    
+    
+    int sStart = buildingData[curr].indexOf("S:") + 3;
+    float Size = float(buildingData[curr].substring(sStart, eStart - 4));
+    
+    
     
     int yStart = buildingData[curr].indexOf("Y:") + 3;
     println("substring",yStart, eStart - 4);
-    float y = float(buildingData[curr].substring(yStart, eStart - 4));
+    float y = float(buildingData[curr].substring(yStart, sStart - 4));
     
     int xStart = buildingData[curr].indexOf("X:") + 3;
     println("index name:",buildingData[curr]);
@@ -139,12 +151,12 @@ void generateBuildings() {
     switch (buildType) {
       
       case 'B':
-        Bank newBank = new Bank(new PVector(x, y));
+        Bank newBank = new Bank(new PVector(x, y), Size);
         Buildings.add(newBank);
         break;
        
       case 'S':
-        School newSchool = new School(new PVector(x, y));
+        School newSchool = new School(new PVector(x, y), Size);
         Buildings.add(newSchool);
         break;
     }
@@ -283,5 +295,6 @@ void resetCity () {
   clear();
   generateRoads();
   generateBuildings();
+  createIntersection();
   
 }
