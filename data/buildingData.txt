@@ -1,18 +1,18 @@
 C0:
-T: School X: 0 Y: 0 S: 50 E: 
+T: School X: 1 Y: 220 S: 50 E: du
 T: Bank X: 300 Y: 500 S: 50 E: 
 T: School X: 600 Y: 300 S: 50 E: 
-T: School X: 410 Y: 325 S: 50 E: u
+T: House X: 410 Y: 325 S: 50 E: u
 C1:
 T: Bank X: 300 Y: 500 E: udlr
 T: School X: 600 Y: 300 E: udlr
 T: School X: 0 Y: 300 E: udlr
 C2:
 C3:
-T: Bank X: 0 Y: 0 S: 150 E: udlr
-T: Bank X: 182 Y: 0 S: 150 E: udlr
-T: Bank X: 364 Y: 0 S: 150 E: udlr
-T: Bank X: 546 Y: 0 S: 150 E: udlr
+T: Bank X: 1 Y: 1 S: 150 E: udlr
+T: Bank X: 182 Y: 1 S: 150 E: udlr
+T: Bank X: 364 Y: 1 S: 150 E: udlr
+T: Bank X: 546 Y: 1 S: 150 E: udlr
 C4:
 C5:
 C6:

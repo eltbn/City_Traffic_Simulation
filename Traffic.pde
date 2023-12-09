@@ -3,8 +3,11 @@ class Traffic {
   float Speed;
   int currentIndex = 0; // represents the index of the path arrayList, this is done so that the whole arrayList can be cleared at once when reaching the destination
   Boolean reachedEnd = false;
-  Road inRoad;
-  ArrayList <Intersection> Path = new ArrayList <Intersection>();
+  Road inRoad; // the road the traffic object should be in
+  
+  Building Destination;
+  ArrayList <Building> Schedule = new ArrayList <Building>();
+  ArrayList <Intersection> Path = new ArrayList <Intersection>(); // path of intersection points to the destination
   
   
    Traffic(PVector p, float s) {
@@ -26,7 +29,10 @@ class Traffic {
   
   
   void moveTraffic() {
-    this.Pos.add(Direction.mult(speedUpFactor));
+    PVector Move = Direction.copy(); // making a copy so that it doesnt multiply itself, copy is used so that Move doesn't use a reference to Direction
+    Move.mult(speedUpFactor);
+    this.Pos.add(Move);
+    println(Direction);
     //println(Path.get(currentIndex+1).Pos);
     if (!reachedEnd) {
       if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) {
@@ -43,7 +49,9 @@ class Traffic {
     }
   }
   
-  
+  void setSchedule() {
+    
+  }
   
 
   boolean reachedNextIntersection(PVector targetLoc) { // calculates distance of the objects position to its target intersection, returns true if it has reached it
@@ -59,7 +67,7 @@ class Traffic {
   
   
   PVector determineDirection(PVector p1, PVector p2) {
-    return new PVector(constrain(p2.x - p1.x, -1, 1), constrain(p2.y - p1.y, -1, 1));
+    return new PVector(constrain(p2.x - p1.x, -1, 1), constrain(p2.y - p1.y, -1, 1)); // essentially normalizes the PVector but since values will only be exactly -1, 0, and 1 the calculation can be skipped
   }
 
   
@@ -77,6 +85,9 @@ class Traffic {
     return null; // there is no road found in between these points
   }
 }
+
+  
+
   //Pedestrian (PVector p, float s) {
   //  super(p, s);
   //}

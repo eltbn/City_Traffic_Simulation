@@ -46,7 +46,7 @@ class Building { //
         case 'd':
           for (Intersection point : Intersections) {
             if (point != null){
-            if (point.Pos.x >= this.Pos.x && point.Pos.x <= this.Pos.x + this.Size && point.Pos.y >= this.Pos.y && abs(this.Pos.y - point.Pos.y) <= 50) { // check if intersection is below the building
+            if (point.Pos.x >= this.Pos.x && point.Pos.x <= this.Pos.x + this.Size && point.Pos.y >= this.Pos.y && abs(this.Pos.y + this.Size - point.Pos.y) <= 50) { // check if intersection is below the building
               float pointX = point.Pos.x;
               PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4*3);
               Intersection entIntersection = new Intersection(intersectionPos);
@@ -124,24 +124,26 @@ class Building { //
       Destination = Buildings.get(int(random(0, Buildings.size()-1)));
     }
     Traffic newTraffic = new Traffic(new PVector(-10, 205), 2);
-    
   }
-
+  
+  
+  
+  
 }
 
-class School extends Building{ 
+class School extends Building { 
   School(PVector p, float s, char[] E){
     super(p,s, int(random(100,200)),color(255,0,0), E);
   }
 }
 
-class Bank extends Building{ 
+class Bank extends Building { 
   Bank(PVector p, float s, char[] E){
     super(p, s,int(random(50,100)),color(0,255,0), E);
   }  
 }
 
-class House extends Building{ 
+class House extends Building { 
   House(PVector p, float s, char[] E){
     super(p,s,int(random(50,100)),color(0,100,100), E);
   }  

@@ -64,7 +64,7 @@ public void createGUI(){
   Time_Scale = new GSlider(window1, 10, 30, 190, 40, 10.0);
   Time_Scale.setShowValue(true);
   Time_Scale.setShowLimits(true);
-  Time_Scale.setLimits(1.0, 0.5, 3.0);
+  Time_Scale.setLimits(1.0, 0.5, 10.0);
   Time_Scale.setNbrTicks(5);
   Time_Scale.setNumberFormat(G4P.DECIMAL, 0);
   Time_Scale.setOpaque(false);

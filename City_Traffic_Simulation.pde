@@ -5,7 +5,7 @@ int selCity = 1; // put this into the GUI later
 
 
 
-int time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:01
+float time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:01
 float speedUpFactor = 1;
 String inGameTime = "00:00"; // not going to be a string, just a placeholder
 int frameRate = 60;
@@ -86,8 +86,6 @@ void draw() {
   time += 1*speedUpFactor;
 
   setTime();
-  
-  time += 1*speedUpFactor;
 
 
 
@@ -164,6 +162,10 @@ void generateBuildings() {
       case 'S':
         School newSchool = new School(new PVector(x, y), Size, Entrances);
         Buildings.add(newSchool);
+        break;
+      case 'H':
+        House newHouse = new House(new PVector(x, y), Size, Entrances);
+        Buildings.add(newHouse);
         break;
     }
   }
