@@ -1,8 +1,8 @@
 C0:
-T: School X: 0 Y: 0 S: 50 E: ulr
-T: Bank X: 300 Y: 500 S: 50 E: udl
-T: School X: 600 Y: 300 S: 50 E: dlr
-T: School X: 410 Y: 325 S: 50 E: ulr
+T: School X: 0 Y: 0 S: 50 E: 
+T: Bank X: 300 Y: 500 S: 50 E: 
+T: School X: 600 Y: 300 S: 50 E: 
+T: School X: 410 Y: 325 S: 50 E: u
 C1:
 T: Bank X: 300 Y: 500 E: udlr
 T: School X: 600 Y: 300 E: udlr

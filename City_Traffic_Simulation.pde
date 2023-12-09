@@ -17,6 +17,7 @@ String [] buildingData;
 
 ArrayList <Road> Roads = new ArrayList<Road>();
 ArrayList <Intersection> Intersections = new ArrayList <Intersection>();
+ArrayList <Intersection> spawnPoints = new ArrayList <Intersection>();
 ArrayList <Building> Buildings = new ArrayList<Building>();
 ArrayList <Traffic> People = new ArrayList<Traffic>();
 
@@ -61,6 +62,7 @@ void setup() {
   Traffic test = new Traffic(new PVector(-20, 205), 2);
   People.add(test);
   generateBuildings();
+  setSpawnPoints();
 }
 
 
@@ -119,7 +121,7 @@ void generateBuildings() {
     
     
     
-    
+    // reading file data from right to left;find entrances
     int eStart = buildingData[curr].indexOf("E:") + 3; // e parameter specifies the direction of entrances the building has (up, down, left, right)
     int numEntrances = buildingData[curr].length() - eStart;
     println("num entrances",numEntrances);
@@ -135,16 +137,17 @@ void generateBuildings() {
     println(Entrances);
     
     
-    
+    // find size
     int sStart = buildingData[curr].indexOf("S:") + 3;
     float Size = float(buildingData[curr].substring(sStart, eStart - 4));
     
     
-    
+    // find y coordinate
     int yStart = buildingData[curr].indexOf("Y:") + 3;
     println("substring",yStart, eStart - 4);
     float y = float(buildingData[curr].substring(yStart, sStart - 4));
     
+    //find x coordinate
     int xStart = buildingData[curr].indexOf("X:") + 3;
     println("index name:",buildingData[curr]);
     float x = float(buildingData[curr].substring(xStart, yStart - 4));
@@ -172,16 +175,39 @@ void generateRoads() {
   int n = preset[0];
   for (int i = 0; i < preset[1]; i++) {
     int curr = n + i;
-    int SPStart = roadData[curr].indexOf("SP:")+4;
-    println("char at",roadData[curr].charAt(SPStart));
-    PVector startPoint = new PVector(int(roadData[curr].substring(SPStart, SPStart + 3)), int(roadData[curr].substring(SPStart+4, SPStart + 7)));
-    println("Start",startPoint);
+    String data = roadData[curr];
     
-    int EPStart = roadData[curr].indexOf("EP:")+4;
-    println("char at",roadData[curr].charAt(EPStart));
-    println(roadData[curr]);
-    PVector endPoint = new PVector(int(roadData[curr].substring(EPStart, EPStart + 3)), int(roadData[curr].substring(EPStart+4, EPStart + 7)));
-    println("end",endPoint);
+    int rightChecked = data.indexOf("EPy:") + 5; // represents the right most parameter, this s used to skip declaring a variable for the index of each parameter in roadData
+    float yPoint = int(data.substring(rightChecked));
+    
+    int leftChecked = data.indexOf("EPx:") + 5;    
+    float xPoint = int(data.substring(leftChecked, rightChecked - 6));
+    PVector endPoint = new PVector(xPoint, yPoint);
+    
+    rightChecked = leftChecked;
+    leftChecked = data.indexOf("SPy:") + 5;
+    
+    yPoint = int(data.substring(leftChecked, rightChecked - 6));
+    
+    rightChecked = leftChecked;
+    leftChecked = data.indexOf("SPx:") + 5;   
+    xPoint = int(data.substring(leftChecked, rightChecked - 6));
+    
+    PVector startPoint = new PVector(xPoint, yPoint);
+    println("start Point" ,startPoint);
+    
+    
+    
+    //int SPStart = roadData[curr].indexOf("SP:")+4;
+    //println("char at",roadData[curr].charAt(SPStart));
+    //PVector startPoint = new PVector(int(roadData[curr].substring(SPStart, SPStart + 3)), int(roadData[curr].substring(SPStart+4, SPStart + 7)));
+    //println("Start",startPoint);
+    
+    //int EPStart = roadData[curr].indexOf("EP:")+4;
+    //println("char at",roadData[curr].charAt(EPStart));
+    //println(roadData[curr]);
+    //PVector endPoint = new PVector(int(roadData[curr].substring(EPStart, EPStart + 3)), int(roadData[curr].substring(EPStart+4, EPStart + 7)));
+    //println("end",endPoint);
     
     Road newRoad = new Road(startPoint, endPoint, 1, 1);
     Roads.add(newRoad);
@@ -287,6 +313,23 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
   int n = 1+sn;
   int [] output = {n, numBuildings};
   return output;
+}
+
+
+void setSpawnPoints() {
+  println("intersections:", Intersections.size(), Intersections);
+  for (Intersection point : Intersections) {
+    if (point != null) {
+    if (point.Pos.x == 0 || point.Pos.x == 700 || point.Pos.y == 0 || point.Pos.y == 700) {
+      spawnPoints.add(point);
+    }
+    }  
+  }
+  for (Building entrance : Buildings) {
+    for (Intersection point : entrance.entrancePoint) {
+      spawnPoints.add(point);
+    }
+  }
 }
 
 
