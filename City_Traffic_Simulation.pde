@@ -55,11 +55,12 @@ void setup() {
     println("intersections:",i.Pos, "connected to", i.Connected.size());
     
   }
-  generateBuildings();
+
   //println
   
   Traffic test = new Traffic(new PVector(-20, 205), 2);
   People.add(test);
+  generateBuildings();
 }
 
 
@@ -78,7 +79,7 @@ void draw() {
     if (currIntersection != null) {
     currIntersection.drawIntersection();
     }
-  }
+  }//
   
   time += 1*speedUpFactor;
 

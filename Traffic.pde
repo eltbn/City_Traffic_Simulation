@@ -11,10 +11,11 @@ class Traffic {
     this.Pos = p;
     this.Speed = s;
     Path.add(Intersections.get(7));
+    Path.add(Intersections.get(8));
     Path.add(Intersections.get(1));
     Path.add(Intersections.get(0));
     Path.add(Intersections.get(2));
-    Path.add(Intersections.get(8));
+    Path.add(Intersections.get(9));
    // Path.add(Intersections.get(0));
     inRoad = roadBetween(Path.get(0), Path.get(1)); // calling this function so that traffic is initialized with their current road set
   }
@@ -26,6 +27,7 @@ class Traffic {
   
   void moveTraffic() {
     this.Pos.add(Direction.mult(speedUpFactor));
+    //println(Path.get(currentIndex+1).Pos);
     if (!reachedEnd) {
       if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) {
         println("reached target");
@@ -64,6 +66,7 @@ class Traffic {
   Road roadBetween(Intersection start, Intersection end) {
     PVector startPos = start.Pos;
     PVector endPos = end.Pos;
+    println(end.Pos);
 
     for (Road road : Roads) {
       if ((road.startPoint.equals(startPos) && road.endPoint.equals(endPos)) || // checks if the start and end points of the roads are where the intersections are
