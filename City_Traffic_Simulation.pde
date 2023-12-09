@@ -74,8 +74,10 @@ void draw() {
     Roads.get(i).drawRoad();
   }
   
-  for (Intersection currRoad : Intersections) {
-    currRoad.drawIntersection();
+  for (Intersection currIntersection : Intersections) {
+    if (currIntersection != null) {
+    currIntersection.drawIntersection();
+    }
   }
   
   time += 1*speedUpFactor;
@@ -151,12 +153,12 @@ void generateBuildings() {
     switch (buildType) {
       
       case 'B':
-        Bank newBank = new Bank(new PVector(x, y), Size);
+        Bank newBank = new Bank(new PVector(x, y), Size, Entrances);
         Buildings.add(newBank);
         break;
        
       case 'S':
-        School newSchool = new School(new PVector(x, y), Size);
+        School newSchool = new School(new PVector(x, y), Size, Entrances);
         Buildings.add(newSchool);
         break;
     }
@@ -228,7 +230,7 @@ PVector findIntersection(Road roadA, Road roadB) {  // since all roads will only
   return new PVector(x, y);
 }
 
-void addIntersection(PVector intersectPos, Road roadA, Road roadB) {
+void addIntersection(PVector intersectPos, Road roadA, Road roadB) { 
   boolean isDuplicate = false;
   
   for (Intersection existingIntersection : Intersections) {
@@ -247,17 +249,17 @@ void addIntersection(PVector intersectPos, Road roadA, Road roadB) {
 }
 
 void addLoneIntersection(PVector point, Road road) {
-  for (Intersection existingIntersection : Intersections) {
+  for (Intersection existingIntersection : Intersections) { // check if an intersection doesn't exist at this point
     if (existingIntersection.Pos.equals(point)) {
       return; // If the point is already an intersection, skip creating another intersection object
     }
   }
-  
-  // If it's not already an intersection, add it
+  // If the point is not an intersection, create one at the point
   Intersection intersection = new Intersection(point); 
   Intersections.add(intersection);
   intersection.addConnected(road);
 }
+
 
 int [] findPreset(String [] file) { // takes in one of the fileData arrays, outputs the index of the preset name and the number of lines before the next
   int sn = 0; // emulates a for loop variable, finds the starting index for the desired city preset
@@ -294,7 +296,7 @@ void resetCity () {
   Intersections.clear();
   clear();
   generateRoads();
-  generateBuildings();
   createIntersection();
+  generateBuildings();
   
 }

@@ -21,11 +21,11 @@ class Intersection { // acts as a node for djikstra's algorithm
   }
 }
 
-void djikstra(Intersection start, Intersection end){
-  ArrayList<Intersection>unvisited = new ArrayList<>();
-  for (Intersection intersection: AllIntersections){
-    intersection.mindist = Integer.MAX_VALUE;
-    intersection.Prevnode =null;
-    unvisited.add(intersection);
-  }
-}
+//void djikstra(Intersection start, Intersection end){
+//  ArrayList<Intersection>unvisited = new ArrayList<>();
+//  for (Intersection intersection: AllIntersections){
+//    intersection.mindist = Integer.MAX_VALUE;
+//    intersection.Prevnode =null;
+//    unvisited.add(intersection);
+//  }
+//}

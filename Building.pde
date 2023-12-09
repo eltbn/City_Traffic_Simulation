@@ -5,33 +5,91 @@ class Building { //
   Boolean enterable;
   color Colour;
   
-  int [] Entrances;
   
  char [] Entrance; // up to 4 points where traffic can enter a building
  
- Building(PVector p, float s, int c, color col){
+ Building(PVector p, float s, int c, color col, char[] E){
     this.Pos = p;
     this.capacity= c; 
     this.numpeople = 0;
     this.enterable = true;
     this.Colour = col;
     this.Size = s;
-   // this.Entrances = E;
+    this.Entrance = E;
+   placeEntrances();
   }
   
-  //void placeEntrances() {
-  //  for (int i = 0; i < Entrances.length; i++) {
-  //    switch (this.Entrance[i]) {
-  //      case 'u':
-  //        for (Intersection point : Intersections); {
-  //          if (this.Pos.x <= point.Pos.x) {
+  void placeEntrances() {
+    Intersection [] toPlace = new Intersection[Entrance.length]; // for potential optimization since adding the function also unnecessarily checks newly added intersections, also used to use Array iterating loops
+    for (int i = 0; i < Entrance.length; i++) {
+      switch (this.Entrance[i]) {
+        case 'u':
+          for (Intersection point : Intersections) {
+            if (point.Pos.x >= this.Pos.x && point.Pos.x <= this.Pos.x + this.Size && point.Pos.y <= this.Pos.y) { // check if intersection is above the building
+              float pointX = point.Pos.x;
+              PVector intersectionPos = new PVector(pointX, this.Pos.y + Size/4);
+              Intersection entIntersection = new Intersection(intersectionPos); // no need to call addLoneIntersection() since no checking for intersections can be safely skipped
+              Road entRoad = new Road(intersectionPos, point.Pos, 1, 1);
               
-  //          }
-        
-  //        }
-  //    }
-  //  }
-  //}
+              toPlace[i] = entIntersection;
+              Roads.add(entRoad);
+              break; 
+            }
+          }
+        break;
+        case 'd':
+          for (Intersection point : Intersections) {
+            if (point != null){
+            if (point.Pos.x >= this.Pos.x && point.Pos.x <= this.Pos.x + this.Size && point.Pos.y >= this.Pos.y) { // check if intersection is below the building
+              float pointX = point.Pos.x;
+              PVector intersectionPos = new PVector(pointX, this.Pos.y + Size/4);
+              Intersection entIntersection = new Intersection(intersectionPos);
+              Road entRoad = new Road(intersectionPos, point.Pos, 1, 1);
+              
+              toPlace[i] = entIntersection;
+              Roads.add(entRoad);
+              break; 
+            }
+            }
+          }
+        break;
+        case 'l':
+          for (Intersection point : Intersections) {
+            if (point != null) {
+            if (point.Pos.y >= this.Pos.y && point.Pos.y <= this.Pos.y + this.Size && point.Pos.x <= this.Pos.x) { // check if intersection is above the building
+              float pointY = point.Pos.y;
+              PVector intersectionPos = new PVector(this.Pos.x + Size/4, pointY);
+              Intersection entIntersection = new Intersection(intersectionPos);
+              Road entRoad = new Road(intersectionPos, point.Pos, 1, 1);
+              
+              toPlace[i] = entIntersection;
+              Roads.add(entRoad);
+              break; 
+            }
+            }
+          }
+        break;
+        case'r':
+          for (Intersection point : Intersections) {
+            if (point != null) {
+            if (point.Pos.x >= this.Pos.x && point.Pos.x <= this.Pos.x + this.Size && point.Pos.y >= this.Pos.y) { // check if intersection is above the building
+              float pointX = point.Pos.x;
+              PVector intersectionPos = new PVector(pointX, this.Pos.y + Size/2);
+              Intersection entIntersection = new Intersection(intersectionPos);
+              Road entRoad = new Road(intersectionPos, point.Pos, 1, 1);
+              
+              toPlace[i] = entIntersection;
+              Roads.add(entRoad);
+              break; 
+            }
+            }
+          }
+      }
+    }
+    for (int i = 0; i < toPlace.length; i++) {
+      Intersections.add(toPlace[i]);
+    }
+  }
   
   
   
@@ -65,19 +123,19 @@ class Building { //
 }
 
 class School extends Building{ 
-  School(PVector p, float s){
-    super(p,s, int(random(100,200)),color(255,0,0));
+  School(PVector p, float s, char[] E){
+    super(p,s, int(random(100,200)),color(255,0,0), E);
   }
 }
 
 class Bank extends Building{ 
-  Bank(PVector p, float s){
-    super(p, s,int(random(50,100)),color(0,255,0));
+  Bank(PVector p, float s, char[] E){
+    super(p, s,int(random(50,100)),color(0,255,0), E);
   }  
 }
 
 class House extends Building{ 
-  House(PVector p, float s){
-    super(p,s,int(random(50,100)),color(0,100,100));
+  House(PVector p, float s, char[] E){
+    super(p,s,int(random(50,100)),color(0,100,100), E);
   }  
 }
