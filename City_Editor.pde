@@ -16,6 +16,15 @@ void makeRoad() {
 
 void keyPressed() {
   if (key == 'l') {
-    println(Roads.get(0).name);
+    spawnTraffic();
   }
+}
+
+
+void spawnTraffic () {
+  Intersection randSpawn = spawnPoints.get(int(random(0,spawnPoints.size())));
+  PVector spawnPos = randSpawn.Pos.copy();
+  
+  Traffic newTraffic = new Traffic (spawnPos, 1, randSpawn);
+  People.add(newTraffic);
 }

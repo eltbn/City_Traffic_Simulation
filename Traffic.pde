@@ -1,7 +1,7 @@
 class Traffic {
   PVector Pos, Direction = new PVector(1,0);
   float Speed;
-  int currentIndex = 0; // represents the index of the path arrayList, this is done so that the whole arrayList can be cleared at once when reaching the destination
+  int currentIndex; // represents the index of the path arrayList, this is done so that the whole arrayList can be cleared at once when reaching the destination
   Boolean reachedEnd = false;
   
   Intersection startPoint; // represents the spawnpoint or the startpoint for pathfinding
@@ -25,8 +25,19 @@ class Traffic {
     //Path.add(Intersections.get(2));
     //Path.add(Intersections.get(9));
     ////Path.add(Intersections.get(0));
+    if (Path.size() != 1){
     inRoad = roadBetween(Path.get(0), Path.get(1)); // calling this function so that traffic is initialized with their current road set
-    println("path is", Path.get(0).Pos);
+    Direction = determineDirection(Path.get(0).Pos, Path.get(1).Pos);
+    println("direction returned", Direction);
+    currentIndex = 0;
+    }
+    else {
+      reachedEnd = true;
+      Direction = new PVector(0,0);
+    }
+    for (Intersection m : Path) {
+    println("path is", m.Pos);
+    }
   }
   
   void drawTraffic () {
@@ -39,15 +50,12 @@ class Traffic {
     Move.mult(speedUpFactor);
     this.Pos.add(Move);
 
-    //println(Path.get(currentIndex+1).Pos);
     if (!reachedEnd) {
       if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) {
-        println("reached target");
         currentIndex ++;
-      
         if (currentIndex + 1 < Path.size()) {
         inRoad = roadBetween(Path.get(currentIndex), Path.get(currentIndex+1));
-      
+          
         Direction = determineDirection(Path.get(currentIndex).Pos, Path.get(currentIndex+1).Pos);
         }
       else { Direction = new PVector (0, 0); reachedEnd = true;}
@@ -60,27 +68,49 @@ class Traffic {
   }
   
 
-  boolean reachedNextIntersection(PVector targetLoc) { // calculates distance of the objects position to its target intersection, returns true if it has reached it
-    float distToTarget;
+  boolean reachedNextIntersection(PVector targetLoc) {
+    float distance;
+    println(this.Pos, targetLoc, "road is", this.inRoad.horizontal, "direction is", Direction);
     if (inRoad.horizontal) {
-      distToTarget = abs(targetLoc.x - this.Pos.x);
+      if (Direction.x < 0) {
+        return this.Pos.x < targetLoc.x +1;
+      }
+      else {
+        return this.Pos.x > targetLoc.x - 1;
+      }
     }
     else {
-      distToTarget = abs(targetLoc.y - this.Pos.y);
-    }
-    return distToTarget < 5; // If the distance to the end point is less than the threshold, return true
-  }
-  
+     if (Direction.y < 0) {
+       return this.Pos.y < targetLoc.y + 1;
+     }
+     else {
+       return this.Pos.y > targetLoc.y - 1; 
+     }
+   }
+ }
   
   PVector determineDirection(PVector p1, PVector p2) {
-    return new PVector(constrain(p2.x - p1.x, -1, 1), constrain(p2.y - p1.y, -1, 1)); // essentially normalizes the PVector but since values will only be exactly -1, 0, and 1 the calculation can be skipped
-  }
+    if (p1.equals(p2)) {
+        return new PVector(0, 0);
+    }
+
+    float xDiff = p2.x - p1.x;
+    float yDiff = p2.y - p1.y;
+    println("direction is ", xDiff, yDiff);
+    float xDirection = constrain(xDiff, -1, 1);
+    println("contrained x is", xDirection);
+    float yDirection = constrain(yDiff, -1, 1);
+println("contrained y is", yDirection);
+    PVector direction = new PVector(xDirection, yDirection);
+    println(direction);
+    return direction;
+}
 
   
   Road roadBetween(Intersection start, Intersection end) {
     PVector startPos = start.Pos;
     PVector endPos = end.Pos;
-    println(end.Pos);
+    //println(end.Pos);
 
     for (Road road : Roads) {
       if ((road.startPoint.equals(startPos) && road.endPoint.equals(endPos)) || // checks if the start and end points of the roads are where the intersections are

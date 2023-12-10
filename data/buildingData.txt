@@ -1,5 +1,6 @@
 C0:
-T: House X: 410 Y: 325 S: 50 E: u
+T: School X: 10 Y: 130 S: 50 E: d
+T: House X: 370 Y: 325 S: 50 E: u
 C1:
 T: Bank X: 300 Y: 500 E: udlr
 T: School X: 600 Y: 300 E: udlr

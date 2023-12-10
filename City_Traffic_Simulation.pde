@@ -63,10 +63,8 @@ void setup() {
   setRoadConnections();
   for (Intersection i : Intersections) {
     println("intersections:",i.Pos, "connected to", i.Connected.size(), i.Connected.get(0).startPoint, i.Connected.get(0).endPoint);
-    
   }
-  Traffic test = new Traffic(new PVector(-20, 205), 2, posToIntersection(Intersections.get(6).Pos));
-  People.add(test);
+
 }
 
 
@@ -87,7 +85,7 @@ void draw() {
     }
   }//
   
-  time += 1*speedUpFactor;
+  time += 15*speedUpFactor;
 
   setTime();
 
