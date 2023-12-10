@@ -3,6 +3,8 @@ class Traffic {
   float Speed;
   int currentIndex = 0; // represents the index of the path arrayList, this is done so that the whole arrayList can be cleared at once when reaching the destination
   Boolean reachedEnd = false;
+  
+  Intersection startPoint; // represents the spawnpoint or the startpoint for pathfinding
   Road inRoad; // the road the traffic object should be in
   
   Building Destination;
@@ -10,17 +12,21 @@ class Traffic {
   ArrayList <Intersection> Path = new ArrayList <Intersection>(); // path of intersection points to the destination
   
   
-   Traffic(PVector p, float s) {
+   Traffic(PVector p, float s, Intersection Start) {
     this.Pos = p;
     this.Speed = s;
-    Path.add(Intersections.get(7));
-    Path.add(Intersections.get(8));
-    Path.add(Intersections.get(1));
-    Path.add(Intersections.get(0));
-    Path.add(Intersections.get(2));
-    Path.add(Intersections.get(9));
-   // Path.add(Intersections.get(0));
+    println("buildings", Buildings);
+    this.startPoint = Start;
+    Path = getShortestPath(startPoint, Buildings.get(int(random(0, Buildings.size()))).entrancePoint[0]);
+    //Path.add(Intersections.get(7));
+    //Path.add(Intersections.get(8));
+    //Path.add(Intersections.get(1));
+    //Path.add(Intersections.get(0));
+    //Path.add(Intersections.get(2));
+    //Path.add(Intersections.get(9));
+    ////Path.add(Intersections.get(0));
     inRoad = roadBetween(Path.get(0), Path.get(1)); // calling this function so that traffic is initialized with their current road set
+    println("path is", Path.get(0).Pos);
   }
   
   void drawTraffic () {
@@ -32,7 +38,7 @@ class Traffic {
     PVector Move = Direction.copy(); // making a copy so that it doesnt multiply itself, copy is used so that Move doesn't use a reference to Direction
     Move.mult(speedUpFactor);
     this.Pos.add(Move);
-    println(Direction);
+
     //println(Path.get(currentIndex+1).Pos);
     if (!reachedEnd) {
       if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) {
@@ -85,9 +91,6 @@ class Traffic {
     return null; // there is no road found in between these points
   }
 }
-
-  
-
   //Pedestrian (PVector p, float s) {
   //  super(p, s);
   //}

@@ -34,8 +34,11 @@ class Building { //
               println("building road up",pointX, this.Pos.y + this.Size/4);
               PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4);
               Intersection entIntersection = new Intersection(intersectionPos); // no need to call addLoneIntersection() since no checking for intersections can be safely skipped
-              Road entRoad = new Road(intersectionPos, point.Pos, 1, 1);
+              if (entIntersection == null) {println(this.entrancePoint[6]); }
+              Road entRoad = new Road(intersectionPos, point.Pos, 1);
               println("building road down, building:", entRoad.startPoint, entRoad.endPoint);
+              
+              entIntersection.Connected.add(entRoad);
               toPlace[i] = entIntersection;
               Roads.add(entRoad);
               break; 
@@ -50,8 +53,11 @@ class Building { //
               float pointX = point.Pos.x;
               PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4*3);
               Intersection entIntersection = new Intersection(intersectionPos);
-              Road entRoad = new Road(intersectionPos, point.Pos, 1, 1);
+              if (entIntersection == null) {println(this.entrancePoint[6]); }
+              Road entRoad = new Road(intersectionPos, point.Pos, 1);
               println("building road down, building:", entRoad.startPoint, entRoad.endPoint);
+              
+              entIntersection.Connected.add(entRoad);
               toPlace[i] = entIntersection;
               Roads.add(entRoad);
               break; 
@@ -66,8 +72,11 @@ class Building { //
               float pointY = point.Pos.y;
               PVector intersectionPos = new PVector(this.Pos.x + this.Size/4, pointY);
               Intersection entIntersection = new Intersection(intersectionPos);
-              Road entRoad = new Road(intersectionPos, point.Pos, 1, 1);
+              if (entIntersection == null) {println(this.entrancePoint[6]); }
+              Road entRoad = new Road(intersectionPos, point.Pos, 1);
               println("building road left, building:", entRoad.startPoint, entRoad.endPoint);
+              
+              entIntersection.Connected.add(entRoad);
               toPlace[i] = entIntersection;
               Roads.add(entRoad);
               break; 
@@ -82,8 +91,11 @@ class Building { //
               float pointY = point.Pos.y;
               PVector intersectionPos = new PVector(this.Pos.x + this.Size/4, pointY);
               Intersection entIntersection = new Intersection(intersectionPos);
-              Road entRoad = new Road(intersectionPos, point.Pos, 1, 1);
+              if (entIntersection == null) {println(this.entrancePoint[6]); }
+              Road entRoad = new Road(intersectionPos, point.Pos, 1);
               println("building road right, building:", entRoad.startPoint, entRoad.endPoint);
+              
+              entIntersection.Connected.add(entRoad);
               toPlace[i] = entIntersection;
               Roads.add(entRoad);
               break; 
@@ -123,28 +135,26 @@ class Building { //
     while (Destination != this) { // while the random destination is not this building
       Destination = Buildings.get(int(random(0, Buildings.size()-1)));
     }
-    Traffic newTraffic = new Traffic(new PVector(-10, 205), 2);
+    Traffic newTraffic = new Traffic(new PVector(-10, 205), 2, posToIntersection(Intersections.get(10).Pos));
+    
   }
-  
-  
-  
-  
+
 }
 
 class School extends Building { 
-  School(PVector p, float s, char[] E){
+  School(PVector p, float s, char[] E) {
     super(p,s, int(random(100,200)),color(255,0,0), E);
   }
 }
 
 class Bank extends Building { 
-  Bank(PVector p, float s, char[] E){
+  Bank(PVector p, float s, char[] E) {
     super(p, s,int(random(50,100)),color(0,255,0), E);
   }  
 }
 
 class House extends Building { 
-  House(PVector p, float s, char[] E){
+  House(PVector p, float s, char[] E) {
     super(p,s,int(random(50,100)),color(0,100,100), E);
   }  
 }
