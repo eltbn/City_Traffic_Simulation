@@ -1,12 +1,13 @@
 import g4p_controls.*;
 
-int roadSize = 30; // for the demo, not sure if this will be a variable for roads
-int selCity = 1; // put this into the GUI later
+int roadSize = 30;
+int selCity = 1; // put GUI but also changable here
 
 
 
+int batchAmt = 1;
 float time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:0
-int timeInterval = 0;
+int timeInterval = 0; // used for 30 simulation minute intervals
 float speedUpFactor = 1;
 String inGameTime = "00:00"; // not going to be a string, just a placeholder
 int frameRate = 60;
@@ -16,17 +17,12 @@ boolean Builder; // for building a city or choosing a preset city
 String [] roadData;
 String [] buildingData;
 
+// simulation objects
 ArrayList <Road> Roads = new ArrayList<Road>();
 ArrayList <Intersection> Intersections = new ArrayList <Intersection>();
-ArrayList <Intersection> spawnPoints = new ArrayList <Intersection>();
+ArrayList <Intersection> spawnPoints = new ArrayList <Intersection>(); // traffic can be spawned on any of these intersections
 ArrayList <Building> Buildings = new ArrayList<Building>();
 ArrayList <Traffic> People = new ArrayList<Traffic>();
-
-
-HashMap<PVector, String> findDirection = new HashMap<PVector, String>(); // hashmap returns the value when the first value (key) is input 
-
-
-
 
 
 void setup() {
@@ -35,46 +31,26 @@ void setup() {
   String [] fileData = loadStrings("roadData.txt"); // represents the current file which that is imported
   roadData = new String [fileData.length];
   roadData = fileData;
-  //println(roadData);
   
   fileData = loadStrings("buildingData.txt");
   buildingData = new String [fileData.length];
   buildingData = fileData;
- // println(buildingData[1]);
   
-  findDirection.put(new PVector(1,0),"right");
-  findDirection.put(new PVector(0,1),"up");
-  findDirection.put(new PVector(1,0),"l");
-  findDirection.put(new PVector(1,0),"up");
-  
-  
-  
+  // object creation is done in this order intentionally
+  generateRoads(); // creates roads from text file
+  createIntersection(); // creates intersection points at the ends of roads
 
-  generateRoads();
-  createIntersection();
-  println("num roads", Roads.size());
-
-
-  //println
-  
-
-  generateBuildings();
-  setSpawnPoints();
+  generateBuildings(); //creates buildings from text file
+  setSpawnPoints(); // designates certain points, points on edges of screen or buildings to place new traffic objects in
  
-  setRoadConnections();
-  for (Intersection i : Intersections) {
-    println("intersections:",i.Pos, "connected to", i.Connected.size(), i.Connected.get(0).startPoint, i.Connected.get(0).endPoint);
-  }
-
+  setRoadConnections(); // in case connected intersections in roads are not properly set
 }
 
 
 void draw() {
-
-  
   background(255);
   frameRate(frameRate);
- // fill(255);
+  
  
   for (int i = 0; i < Roads.size(); i++) {
     Roads.get(i).drawRoad();
@@ -84,13 +60,14 @@ void draw() {
     if (currIntersection != null) {
     currIntersection.drawIntersection();
     }
-  }//
+  }
+  
+  
   
   time += 6*speedUpFactor;
 
   setTime();
   if (time / 1800 >= timeInterval) {
-    println("next interval");
     timeInterval ++;
     if (timeInterval > 51) {
       timeInterval = 0; 
@@ -117,53 +94,40 @@ void draw() {
 
 
 void generateBuildings() {
-
-
-  //// find the start and end index of the desired city preset
+  // find the start and end index of the desired city preset, also called at the start of generateRoads()
   int [] preset = findPreset(buildingData);
   
   
   int n = preset[0]; // sn starts at the preset name, 
-  println ("n:", n);
   for (int i = 0; i < preset[1]; i++) {
-    println("index:", i);
-    int curr = n + i;
+    int curr = n + i; // represents the current line being read
     
-    
-    
-    // reading file data from right to left;find entrances
+    // reading file data from right to left; find entrances
     int eStart = buildingData[curr].indexOf("E:") + 3; // e parameter specifies the direction of entrances the building has (up, down, left, right)
-    int numEntrances = buildingData[curr].length() - eStart;
-    println("num entrances",numEntrances);
-    char [] Entrances = new char[numEntrances];
-    int currEntrance = 0; // acts as a for loop variable, will increment each loop 
+    int numEntrances = buildingData[curr].length() - eStart; // this is possible since entrances are listed last
+    char [] Entrances = new char[numEntrances]; // entrances are added as characters to be used later in a switch statement
     
-    for (int o = eStart; o < buildingData[curr].length(); o ++) {
-      println(o);
+    int currEntrance = 0; // acts as a for loop variable, will increment each loop    
+    for (int o = eStart; o < buildingData[curr].length(); o ++) { // add the entrances to the array
       Entrances[currEntrance] = buildingData[curr].charAt(o);
       currEntrance ++;
     }
-   
-    println(Entrances);
     
     
     // find size
-    int sStart = buildingData[curr].indexOf("S:") + 3;
-    float Size = float(buildingData[curr].substring(sStart, eStart - 4));
+    int sStart = buildingData[curr].indexOf("S:") + 3; // index for where to read the size
+    float Size = float(buildingData[curr].substring(sStart, eStart - 4)); // float value of the size
     
     
     // find y coordinate
-    int yStart = buildingData[curr].indexOf("Y:") + 3;
-    println("substring",yStart, eStart - 4);
+    int yStart = buildingData[curr].indexOf("Y:") + 3; // index of where the y cordinate is read
     float y = float(buildingData[curr].substring(yStart, sStart - 4));
     
     //find x coordinate
-    int xStart = buildingData[curr].indexOf("X:") + 3;
-    println("index name:",buildingData[curr]);
+    int xStart = buildingData[curr].indexOf("X:") + 3; // index of where the x cordinate is read
     float x = float(buildingData[curr].substring(xStart, yStart - 4));
-    //println("index:", i, "x value", x, "y value", y);
     
-    char buildType = buildingData[curr].charAt(3); // takes the character of the inputted number in the string
+    char buildType = buildingData[curr].charAt(3); // takes the character of the inputted number in the string to find what type of building to be constructed
     switch (buildType) {
       
       case 'B':
@@ -189,45 +153,33 @@ void generateBuildings() {
   }
 }
 
+
 void generateRoads() {
-  int [] preset = findPreset(roadData);
+  int [] preset = findPreset(roadData); // get the start and end index of this preset
   
   int n = preset[0];
   for (int i = 0; i < preset[1]; i++) {
-    int curr = n + i;
+    int curr = n + i; // represents the line being read
     String data = roadData[curr];
     
-    int rightChecked = data.indexOf("EPy:") + 5; // represents the right most parameter, this s used to skip declaring a variable for the index of each parameter in roadData
+    int rightChecked = data.indexOf("EPy:") + 5; // represents the right most parameter, this is used to skip declaring a variable for the index of each parameter in roadData
     float yPoint = int(data.substring(rightChecked));
     
-    int leftChecked = data.indexOf("EPx:") + 5;    
+    int leftChecked = data.indexOf("EPx:") + 5;  // get the leftmost index for the endPoint x value
     float xPoint = int(data.substring(leftChecked, rightChecked - 6));
-    PVector endPoint = new PVector(xPoint, yPoint);
+    PVector endPoint = new PVector(xPoint, yPoint); // making the Pvector here to reuse variables
     
-    rightChecked = leftChecked;
+    rightChecked = leftChecked; // adjust the check variables to the next item being readd
     leftChecked = data.indexOf("SPy:") + 5;
     
-    yPoint = int(data.substring(leftChecked, rightChecked - 6));
+    yPoint = int(data.substring(leftChecked, rightChecked - 6)); // startPoint y value
     
     rightChecked = leftChecked;
     leftChecked = data.indexOf("SPx:") + 5;   
-    xPoint = int(data.substring(leftChecked, rightChecked - 6));
+    
+    xPoint = int(data.substring(leftChecked, rightChecked - 6)); // startPoint x value
     
     PVector startPoint = new PVector(xPoint, yPoint);
-    println("start Point" ,startPoint);
-    
-    
-    
-    //int SPStart = roadData[curr].indexOf("SP:")+4;
-    //println("char at",roadData[curr].charAt(SPStart));
-    //PVector startPoint = new PVector(int(roadData[curr].substring(SPStart, SPStart + 3)), int(roadData[curr].substring(SPStart+4, SPStart + 7)));
-    //println("Start",startPoint);
-    
-    //int EPStart = roadData[curr].indexOf("EP:")+4;
-    //println("char at",roadData[curr].charAt(EPStart));
-    //println(roadData[curr]);
-    //PVector endPoint = new PVector(int(roadData[curr].substring(EPStart, EPStart + 3)), int(roadData[curr].substring(EPStart+4, EPStart + 7)));
-    //println("end",endPoint);
     
     Road newRoad = new Road(startPoint, endPoint, 1);
     Roads.add(newRoad);
@@ -235,13 +187,41 @@ void generateRoads() {
 }
 
 
-void createIntersection() {
-  for (int i = 0; i < Roads.size() - 1; i++) {
+int [] findPreset(String [] file) { // takes in one of the fileData arrays, outputs the index of the preset name and the number of lines before the next
+  int sn = 0; // emulates a for loop variable, finds the starting index for the desired city preset
+  
+  String start = str(selCity-1); // 4 will be changed to the button value from the GUI
+  while (!file[sn].substring(0, 2).equals("C" + start)) {
+    sn ++;
+    println("sn",sn);
+  }
+  // println("final", sn, ":", file[sn]);
+  
+  int en = sn; // index of the last building; continue from the start index
+  
+  String end = str(selCity); // represents the next city or end
+  while (!file[en].substring(0, 2).equals("C" + end)) {
+    en ++;
+  }
+  en --;
+ // println("final", en, ":", file[en]);
+  
+  int numBuildings = en - sn;
+ // println(numBuildings);
+  
+  int n = 1+sn;
+  int [] output = {n, numBuildings};
+  return output;
+}
+
+
+void createIntersection() { // this function mainly calls other functions to construct intersections
+  for (int i = 0; i < Roads.size() - 1; i++) { // this cant be an array based for loop since Roads will be modified
     for (int j = i + 1; j < Roads.size(); j++) {
-      Road roadA = Roads.get(i);
+      Road roadA = Roads.get(i); // emulates an array based for loop
       Road roadB = Roads.get(j);
       
-      PVector intersection = findIntersection(roadA, roadB);
+      PVector intersection = findIntersection(roadA, roadB); // find intersections from these roads
       if (intersection != null) {
         addIntersection(intersection, roadA, roadB);
         
@@ -249,20 +229,18 @@ void createIntersection() {
     }
   }
   
-  // Add start or end points as intersections
+  // Add any remaining start or end points on roads
   for (Road road : Roads) {
     addLoneIntersection(road.startPoint, road);
     addLoneIntersection(road.endPoint, road);
   }
-  
-  println("Intersections", Intersections.size());
 }
 
 
 PVector findIntersection(Road roadA, Road roadB) {
   // Check if one road is horizontal and the other is vertical
   if ((roadA.horizontal && !roadB.horizontal) || (!roadA.horizontal && roadB.horizontal)) {
-    if (roadA.horizontal) {
+    if (roadA.horizontal) { // since all roads are perfectly horizontal or vertical, they are essential line equations of x = __ and y = __, making the intersection (x, y)
       float x = roadB.startPoint.x;
       float y = roadA.startPoint.y;
 
@@ -289,24 +267,25 @@ PVector findIntersection(Road roadA, Road roadB) {
   return null; // if no intersection
 }
 
-void addIntersection(PVector intersectPos, Road roadA, Road roadB) { 
-  boolean isDuplicate = false;
+
+void addIntersection(PVector intersectPos, Road roadA, Road roadB) { // general function for safely adding intersections 
+//  boolean isDuplicate = false;
   
   for (Intersection existingIntersection : Intersections) {
     if (existingIntersection.Pos.equals(intersectPos)) {
-      isDuplicate = true;
+  //    isDuplicate = true;
       return; // end the function prematurely
     }
   }
   
-  if (!isDuplicate) {
+  //if (!isDuplicate) {
     Intersection intersection = new Intersection(intersectPos); 
   if (intersection == null) {println(Buildings.get(100)); }
     Intersections.add(intersection);
     println("normal intersection at", Intersections.size(), intersectPos, roadA.startPoint, roadA.endPoint, roadB.startPoint, roadB.endPoint);
     intersection.addConnected(roadA);
     intersection.addConnected(roadB);
-  }
+  //}
 }
 
 void addLoneIntersection(PVector point, Road road) {
@@ -343,52 +322,33 @@ void setRoadConnections() {
   }
 }
 
-int [] findPreset(String [] file) { // takes in one of the fileData arrays, outputs the index of the preset name and the number of lines before the next
-  int sn = 0; // emulates a for loop variable, finds the starting index for the desired city preset
-  
-  String start = str(selCity-1); // 4 will be changed to the button value from the GUI
-  while (!file[sn].substring(0, 2).equals("C" + start)) {
-    sn ++;
-    println("sn",sn);
-  }
-  // println("final", sn, ":", file[sn]);
-  
-  int en = sn; // index of the last building; continue from the start index
-  
-  String end = str(selCity); // represents the next city or end
-  while (!file[en].substring(0, 2).equals("C" + end)) {
-    en ++;
-  }
-  en --;
- // println("final", en, ":", file[en]);
-  
-  int numBuildings = en - sn;
- // println(numBuildings);
-  
-  int n = 1+sn;
-  int [] output = {n, numBuildings};
-  return output;
-}
-
 
 void setSpawnPoints() {
-  println("intersections:", Intersections.size(), Intersections);
   for (Intersection point : Intersections) {
     if (point != null) {
-    if (point.Pos.x == 0 || point.Pos.x == 700 || point.Pos.y == 0 || point.Pos.y == 700) {
+    if (point.Pos.x == 0 || point.Pos.x == width || point.Pos.y == 0 || point.Pos.y == height) { // if the intersections are on the edge of the screen
       spawnPoints.add(point);
     }
     }  
   }
   for (Building entrance : Buildings) {
-    for (Intersection point : entrance.entrancePoint) {
+    for (Intersection point : entrance.entrancePoint) { // add all buildings entrances as spawnPoints as well
       spawnPoints.add(point);
     }
   }
 }
 
 
-void resetCity () {
+void spawnTraffic () {
+  Intersection randSpawn = spawnPoints.get(int(random(0,spawnPoints.size()))); // spawn traffic at a random spawnPoint
+  PVector spawnPos = randSpawn.Pos.copy(); // a copy is used so that a reference is not used
+  
+  Traffic newTraffic = new Traffic (spawnPos, 1, randSpawn);
+  People.add(newTraffic);
+}
+
+
+void resetCity () { // reset everything stored
   Roads.clear();
   Buildings.clear();
   People.clear();
@@ -397,5 +357,6 @@ void resetCity () {
   generateRoads();
   createIntersection();
   generateBuildings();
-  
+  timeInterval = 0; 
+  time = 0;
 }

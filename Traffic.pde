@@ -49,8 +49,9 @@ class Traffic {
     this.Pos.add(Move);
 
     if (!reachedEnd) {
-      if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) {
+      if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) {    
         currentIndex ++;
+        this.Pos = Path.get(currentIndex).Pos.copy();
         previousPoint = Path.get(currentIndex);
         if (currentIndex + 1 < Path.size()) {
         inRoad = roadBetween(Path.get(currentIndex), Path.get(currentIndex+1));
@@ -142,7 +143,7 @@ class Traffic {
   void checkSchedule (int time) {
     Building check = Schedule.get(time);
     println(check);
-    if (check != null) {
+    if (check != null && reachedEnd) {
       
       Path = getShortestPath(previousPoint, check.entrancePoint[int(random(0, check.entrancePoint.length))]);
       reachedEnd = false;

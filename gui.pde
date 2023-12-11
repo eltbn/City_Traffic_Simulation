@@ -41,11 +41,27 @@ public void Pause_Start(GButton source, GEvent event) { //_CODE_:Pause_Button:63
 
 public void Preset_Changed(GDropList source, GEvent event) { //_CODE_:Preset_Selector:642755:
   selCity = int(Preset_Selector.getSelectedText().substring(5));
-  println("sel",Preset_Selector.getSelectedText().substring(5));
-  println("selllllllllllllllllll");
-  
+
   resetCity();  
 } //_CODE_:Preset_Selector:642755:
+
+public void TrafficSpawned(GButton source, GEvent event) { //_CODE_:TrafficSpawner:621476:
+  spawnTraffic();
+} //_CODE_:TrafficSpawner:621476:
+
+public void button1_click1(GButton source, GEvent event) { //_CODE_:BatchSpawn:779496:
+  for (int b = 0; b < batchAmt; b++) {
+    spawnTraffic(); 
+  }
+} //_CODE_:BatchSpawn:779496:
+
+public void AmountTrafficChanged(GSlider source, GEvent event) { //_CODE_:BatchAmount:247318:
+  batchAmt = BatchAmount.getValueI();
+} //_CODE_:BatchAmount:247318:
+
+public void BatchAmountIndicator(GTextField source, GEvent event) { //_CODE_:Batch_Amount_Scale:423078:
+  println("Batch_Amount_Scale - GTextField >> GEvent." + event + " @ " + millis());
+} //_CODE_:Batch_Amount_Scale:423078:
 
 
 
@@ -56,7 +72,7 @@ public void createGUI(){
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
   surface.setTitle("Sketch Window");
-  window1 = GWindow.getWindow(this, "Window title", 0, 0, 240, 240, JAVA2D);
+  window1 = GWindow.getWindow(this, "Window title", 0, 0, 240, 360, JAVA2D);
   window1.noLoop();
   window1.setActionOnClose(G4P.KEEP_OPEN);
   window1.addDrawHandler(this, "win_draw1");
@@ -75,9 +91,29 @@ public void createGUI(){
   Pause_Button = new GButton(window1, 73, 94, 80, 30);
   Pause_Button.setText("PAUSE");
   Pause_Button.addEventHandler(this, "Pause_Start");
-  Preset_Selector = new GDropList(window1, 70, 147, 90, 120, 5, 10);
+  Preset_Selector = new GDropList(window1, 70, 147, 90, 100, 4, 10);
   Preset_Selector.setItems(loadStrings("list_642755"), 0);
   Preset_Selector.addEventHandler(this, "Preset_Changed");
+  TrafficSpawner = new GButton(window1, 24, 256, 80, 30);
+  TrafficSpawner.setText("Spawn Traffic");
+  TrafficSpawner.addEventHandler(this, "TrafficSpawned");
+  BatchSpawn = new GButton(window1, 130, 256, 80, 30);
+  BatchSpawn.setText("Batch Spawn");
+  BatchSpawn.addEventHandler(this, "button1_click1");
+  BatchAmount = new GSlider(window1, 52, 204, 139, 51, 10.0);
+  BatchAmount.setShowValue(true);
+  BatchAmount.setShowLimits(true);
+  BatchAmount.setLimits(1, 0, 5);
+  BatchAmount.setNbrTicks(5);
+  BatchAmount.setStickToTicks(true);
+  BatchAmount.setShowTicks(true);
+  BatchAmount.setNumberFormat(G4P.INTEGER, 0);
+  BatchAmount.setOpaque(false);
+  BatchAmount.addEventHandler(this, "AmountTrafficChanged");
+  Batch_Amount_Scale = new GTextField(window1, 59, 182, 120, 19, G4P.SCROLLBARS_NONE);
+  Batch_Amount_Scale.setText("Batch amount");
+  Batch_Amount_Scale.setOpaque(true);
+  Batch_Amount_Scale.addEventHandler(this, "BatchAmountIndicator");
   window1.loop();
 }
 
@@ -88,3 +124,7 @@ GSlider Time_Scale;
 GTextField Time_Scale_Title; 
 GButton Pause_Button; 
 GDropList Preset_Selector; 
+GButton TrafficSpawner; 
+GButton BatchSpawn; 
+GSlider BatchAmount; 
+GTextField Batch_Amount_Scale; 
