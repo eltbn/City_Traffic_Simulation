@@ -153,6 +153,20 @@ class Bank extends Building {
   }  
 }
 
+class Mart extends Building { 
+  Mart(PVector p, float s, char[] E) {
+    super(p, s,int(random(50,100)),color(50,100,20), E);
+  }  
+}
+
+
+class Park extends Building { 
+  Park(PVector p, float s, char[] E) {
+    super(p, s,int(random(50,100)),color(50,100,20), E);
+  }  
+}
+
+
 class House extends Building { 
   House(PVector p, float s, char[] E) {
     super(p,s,int(random(50,100)),color(0,100,100), E);

@@ -20,7 +20,6 @@ synchronized public void win_draw1(PApplet appc, GWinData data) { //_CODE_:windo
 
 public void Time_Changed(GSlider source, GEvent event) { //_CODE_:Time_Scale:418764:
   speedUpFactor = Time_Scale.getValueF();
-  println("Speed Up Factor:", speedUpFactor);
   //println("Time_Speed - GSlider >> GEvent." + event + " @ " + millis());
 } //_CODE_:Time_Scale:418764:
 

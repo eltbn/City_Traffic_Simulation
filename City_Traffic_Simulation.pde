@@ -5,7 +5,8 @@ int selCity = 1; // put this into the GUI later
 
 
 
-float time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:01
+float time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:0
+int timeInterval = 0;
 float speedUpFactor = 1;
 String inGameTime = "00:00"; // not going to be a string, just a placeholder
 int frameRate = 60;
@@ -85,15 +86,19 @@ void draw() {
     }
   }//
   
-  time += 15*speedUpFactor;
+  time += 6*speedUpFactor;
 
   setTime();
-
-
-
-  for (Building currBuilding : Buildings) {
-
-    currBuilding.drawBuilding();
+  if (time / 1800 >= timeInterval) {
+    println("next interval");
+    timeInterval ++;
+    if (timeInterval > 51) {
+      timeInterval = 0; 
+      time = 0;
+    }
+    for (Traffic person : People) {
+      person.checkSchedule(timeInterval);
+    }
   }
   
 
@@ -101,6 +106,11 @@ void draw() {
 
     currTraffic.drawTraffic();
     currTraffic.moveTraffic();
+  }
+  
+  for (Building currBuilding : Buildings) {
+
+    currBuilding.drawBuilding();
   }
 }
 
@@ -170,6 +180,11 @@ void generateBuildings() {
         House newHouse = new House(new PVector(x, y), Size, Entrances);
         Buildings.add(newHouse);
         break;
+        
+      case 'M':
+        Mart newMart = new Mart(new PVector(x, y), Size, Entrances); // this is named such since building types cant have the same first letter
+        Buildings.add(newMart);
+        break;  
     }
   }
 }
