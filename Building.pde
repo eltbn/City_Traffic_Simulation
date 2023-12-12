@@ -17,29 +17,26 @@ class Building { //
     this.Colour = col;
     this.Size = s;
     this.Entrance = E;
-    entrancePoint = new Intersection[Entrance.length];
+    entrancePoint = new Intersection[Entrance.length]; //
     placeEntrances();
    
   }
   
-  void placeEntrances() {
+  void placeEntrances() { // based on the entrancePoint array which contains characters indicating the cardinal direction of the entrance
     Intersection [] toPlace = new Intersection[Entrance.length]; // for potential optimization since adding the function also unnecessarily checks newly added intersections, also used to use Array iterating loops
     for (int i = 0; i < Entrance.length; i++) {
-      switch (this.Entrance[i]) {
+      switch (this.Entrance[i]) { // the cases are similar and only differ with the conditional
         case 'u':
           for (Intersection point : Intersections) {
             if (point != null) {
             if (point.Pos.x >= this.Pos.x && point.Pos.x <= this.Pos.x + this.Size && point.Pos.y <= this.Pos.y && abs(this.Pos.y - point.Pos.y) <= 50) { // check if intersection is above the building
               float pointX = point.Pos.x;
-              println("building road up",pointX, this.Pos.y + this.Size/4);
-              PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4);
-              Intersection entIntersection = new Intersection(intersectionPos); // no need to call addLoneIntersection() since no checking for intersections can be safely skipped
-              if (entIntersection == null) {println(this.entrancePoint[6]); }
+              PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4); // make the entrance more closer to the sides
+              Intersection entIntersection = new Intersection(intersectionPos);
               Road entRoad = new Road(intersectionPos, point.Pos, 1);
-              println("building road down, building:", entRoad.startPoint, entRoad.endPoint);
               
               entIntersection.Connected.add(entRoad);
-              toPlace[i] = entIntersection;
+              toPlace[i] = entIntersection; // queue the intersection into this list so that they can all be added at once
               Roads.add(entRoad);
               break; 
             }
@@ -53,9 +50,7 @@ class Building { //
               float pointX = point.Pos.x;
               PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4*3);
               Intersection entIntersection = new Intersection(intersectionPos);
-              if (entIntersection == null) {println(this.entrancePoint[6]); }
               Road entRoad = new Road(intersectionPos, point.Pos, 1);
-              println("building road down, building:", entRoad.startPoint, entRoad.endPoint);
               
               entIntersection.Connected.add(entRoad);
               toPlace[i] = entIntersection;
@@ -72,9 +67,7 @@ class Building { //
               float pointY = point.Pos.y;
               PVector intersectionPos = new PVector(this.Pos.x + this.Size/4, pointY);
               Intersection entIntersection = new Intersection(intersectionPos);
-              if (entIntersection == null) {println(this.entrancePoint[6]); }
               Road entRoad = new Road(intersectionPos, point.Pos, 1);
-              println("building road left, building:", entRoad.startPoint, entRoad.endPoint);
               
               entIntersection.Connected.add(entRoad);
               toPlace[i] = entIntersection;
@@ -91,9 +84,7 @@ class Building { //
               float pointY = point.Pos.y;
               PVector intersectionPos = new PVector(this.Pos.x + this.Size/4, pointY);
               Intersection entIntersection = new Intersection(intersectionPos);
-              if (entIntersection == null) {println(this.entrancePoint[6]); }
               Road entRoad = new Road(intersectionPos, point.Pos, 1);
-              println("building road right, building:", entRoad.startPoint, entRoad.endPoint);
               
               entIntersection.Connected.add(entRoad);
               toPlace[i] = entIntersection;
@@ -104,19 +95,9 @@ class Building { //
           }
       }
     }
-    for (int i = 0; i < toPlace.length; i++) {
+    for (int i = 0; i < toPlace.length; i++) { // add the entrances to the intersection
       Intersections.add(toPlace[i]);
       entrancePoint[i] = toPlace[i];
-    }
-  }
-  
-  
-  
-  void updateB(){
-    if (this.capacity<=this.numpeople){
-      this.enterable = false;
-    } else {
-      this.enterable = true;
     }
   }
   
@@ -126,18 +107,6 @@ class Building { //
     rect(this.Pos.x,this.Pos.y, Size, Size);
   }
   
-  
-  
-  
-  void spawnTraffic() {
-    
-    Building Destination = Buildings.get(int(random(0, Buildings.size()-1)));
-    while (Destination != this) { // while the random destination is not this building
-      Destination = Buildings.get(int(random(0, Buildings.size()-1)));
-    }
-    Traffic newTraffic = new Traffic(new PVector(-10, 205), 2, posToIntersection(Intersections.get(10).Pos));
-    
-  }
 
 }
 

@@ -103,7 +103,7 @@ public void createGUI(){
   BatchAmount = new GSlider(window1, 52, 204, 139, 51, 10.0);
   BatchAmount.setShowValue(true);
   BatchAmount.setShowLimits(true);
-  BatchAmount.setLimits(1, 0, 5);
+  BatchAmount.setLimits(1, 1, 5);
   BatchAmount.setNbrTicks(5);
   BatchAmount.setStickToTicks(true);
   BatchAmount.setShowTicks(true);

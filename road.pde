@@ -28,25 +28,18 @@ Road(PVector sP, PVector eP, int sl) {
 
 void drawRoad() {
   fill(0);  
-    //if (horizontal) { // this conditional statment is required so that roads are drawn as squares
-    //  rect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x, this.endPoint.y - this.startPoint.y + roadSize);
-    //}
-    //else if (!horizontal) {
-    //  rect(this.startPoint.x, this.startPoint.y, this.endPoint.x - this.startPoint.x + roadSize, this.endPoint.y - this.startPoint.y);
-    //}
   strokeWeight(roadSize);
   line(this.startPoint.x, this.startPoint.y, this.endPoint.x, this.endPoint.y);
   strokeWeight(1);
 }
 
-// edits
- float calculateWeight(){
-   if (this.horizontal) {
-     return abs(this.startPoint.x - this.endPoint.x);
-   
-   }
-   else {
-     return abs(this.startPoint.y - this.endPoint.y);
-    }  
+
+float calculateWeight() { // returns the length of the road, considering that it is one dimensional
+  if (this.horizontal) { // if horizontal, use x values
+    return abs(this.startPoint.x - this.endPoint.x);   
   }
+  else { // if vertical, use y values
+    return abs(this.startPoint.y - this.endPoint.y);
+   }  
+ }
 }

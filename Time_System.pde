@@ -9,8 +9,8 @@ String convertToTimeFormat(float totalTime) {
   if (seconds/86400 == 1) {
     seconds = 0;
   }
-  // Create a string representation of time in Hours:Minutes
-  String gameTime = nf(hours, 2) + ":" + nf(minutes, 2);
+
+  String gameTime = nf(hours, 2) + ":" + nf(minutes, 2); // create string as displayed time 
   return gameTime;
 }
 

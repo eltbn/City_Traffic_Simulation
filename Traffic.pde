@@ -16,25 +16,22 @@ class Traffic {
    Traffic(PVector p, float s, Intersection Start) {
     this.Pos = p;
     this.Speed = s;
-    println("buildings", Buildings);
     this.startPoint = Start;
+    
+    // constructor can be used as a local setup function
     Path = getShortestPath(startPoint, Buildings.get(int(random(0, Buildings.size()))).entrancePoint[0]);
-
     setSchedule();
     previousPoint = Path.get(0);
-    if (Path.size() != 1){
+    if (Path.size() != 1) { // if the traffic is not already at their destination 
       inRoad = roadBetween(Path.get(0), Path.get(1)); // calling this function so that traffic is initialized with their current road set
       Direction = determineDirection(Path.get(0).Pos, Path.get(1).Pos);
       println("direction returned", Direction);
       currentIndex = 0;
     
     }
-    else {
+    else { // ensure the traffic stays at the destination 
       reachedEnd = true;
       Direction = new PVector(0,0);
-    }
-    for (Intersection m : Path) {
-    println("path is", m.Pos);
     }
   }
   
@@ -44,37 +41,41 @@ class Traffic {
   
   
   void moveTraffic() {
-    PVector Move = Direction.copy(); // making a copy so that it doesnt multiply itself, copy is used so that Move doesn't use a reference to Direction
+    PVector Move = Direction.copy(); // copy is used so that Move doesn't use a reference to Direction and multiply itself as a result
     Move.mult(speedUpFactor);
     this.Pos.add(Move);
 
     if (!reachedEnd) {
-      if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) {    
-        currentIndex ++;
-        this.Pos = Path.get(currentIndex).Pos.copy();
-        previousPoint = Path.get(currentIndex);
-        if (currentIndex + 1 < Path.size()) {
-        inRoad = roadBetween(Path.get(currentIndex), Path.get(currentIndex+1));
+      if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) { // if the traffic passes the next intersection in their path
+        currentIndex ++; // removing the item at index 0 from the path ArrayList would be more costly since all items are shifted down one index
+        this.Pos = Path.get(currentIndex).Pos.copy(); // ensure traffic stays on the road, especially with higher speeds
+        previousPoint = Path.get(currentIndex); // take the last index the traffic was on in case the schedule changes while it is moving
+        
+        if (currentIndex + 1 < Path.size()) { // if there is a next insection
+        inRoad = roadBetween(Path.get(currentIndex), Path.get(currentIndex+1)); // take the road in between the intersections
           
         Direction = determineDirection(Path.get(currentIndex).Pos, Path.get(currentIndex+1).Pos);
         }
-      else { Direction = new PVector (0, 0); reachedEnd = true;}
+        else { // traffic has reached its destination
+          Direction = new PVector (0, 0); 
+          reachedEnd = true;
+        }
       }
     }
   }
   
   
 
-  boolean reachedNextIntersection(PVector targetLoc) {
-    if (inRoad.horizontal) {
-      if (Direction.x < 0) {
+  boolean reachedNextIntersection(PVector targetLoc) { // returns true if the traffic has passed the intersection by comparing x or y values
+    if (inRoad.horizontal) { // if horizontal, x values will be checked
+      if (Direction.x < 0) { 
         return this.Pos.x < targetLoc.x ;
       }
       else {
         return this.Pos.x > targetLoc.x ;
       }
     }
-    else {
+    else { // if vertical, y values will be checked
      if (Direction.y < 0) {
        return this.Pos.y < targetLoc.y ;
      }
@@ -83,22 +84,23 @@ class Traffic {
      }
    }
  }
+ 
   
-  PVector determineDirection(PVector p1, PVector p2) {
+  PVector determineDirection(PVector p1, PVector p2) { // find direction by subtracting current and target positions, then normalizing the pvector
     if (p1.equals(p2)) {
         return new PVector(0, 0);
     }
 
     float xDiff = p2.x - p1.x;
     float yDiff = p2.y - p1.y;
-    float xDirection = constrain(xDiff, -1, 1);
+    float xDirection = constrain(xDiff, -1, 1); // constrain can be used to normalize the pvector since only x or y will not be 0
     float yDirection = constrain(yDiff, -1, 1);
     PVector direction = new PVector(xDirection, yDirection);
     return direction;
 }
 
   
-  Road roadBetween(Intersection start, Intersection end) {
+  Road roadBetween(Intersection start, Intersection end) { // finds the road by checking if the road's start and endpoints are equal to the two intersections
     PVector startPos = start.Pos;
     PVector endPos = end.Pos;
     //println(end.Pos);
@@ -112,58 +114,48 @@ class Traffic {
     return null; // there is no road found in between these points
   }
 
-  void setSchedule() { // traffic will have 6 buildings to go to each day
-    int numDayLoc = int(random(1,4));
-    
+  void setSchedule() { // traffic will have up to 6 buildings to go to each day
+    int numDayLoc = int(random(1,4));    
     int timeRange = 24 / numDayLoc; // time range between moving to next location so that traffic is more likely to reach their destination before moving again, counts up by 30 minutes
-    
-    
+        
     for (int i = 0; i < numDayLoc; i++) {
       Building chosenLoc = Buildings.get(int(random(0,Buildings.size() - 1)));
       int time = int(random(0, timeRange));
       Schedule.put(time + i*timeRange, chosenLoc);
     } 
    
-    int numNightLoc = int(random(0, 2));
-    if (numNightLoc != 0) { // people might not go outside at night
+    int numNightLoc = int(random(0, 2)); // less overall activity at night
+    if (numNightLoc != 0) { // people might not need to go out at night
       timeRange = 24/ numNightLoc;
    
       for (int i = 0; i < numNightLoc; i++) {
         Building chosenLoc = Buildings.get(int(random(0, Buildings.size() - 1)));
         int time = int(random(0, timeRange));
-        Schedule.put(time + i*timeRange + 12, chosenLoc);
+        Schedule.put(time + i*timeRange + 12, chosenLoc); // setting the hashmap so when the time is input and there is a value associated, it will return the value
       }
     }
-    for (Integer key : Schedule.keySet()) {
-    println("key", key);
-    println(Schedule.get(key));
   }
-  }
+
   
-  void checkSchedule (int time) {
+  void checkSchedule (int time) { // inputs the key into the schedule hashmap, and setting the destination if a value is returned   
     Building check = Schedule.get(time);
-    println(check);
     if (check != null && reachedEnd) {
       
       Path = getShortestPath(previousPoint, check.entrancePoint[int(random(0, check.entrancePoint.length))]);
       reachedEnd = false;
 
-
-      if (Path.size() != 1){
+      if (Path.size() != 1) { // if the traffic is not currently at the destination
         inRoad = roadBetween(Path.get(0), Path.get(1)); // calling this function so that traffic is initialized with their current road set
         Direction = determineDirection(Path.get(0).Pos, Path.get(1).Pos);
         println("direction returned", Direction);
-        currentIndex = 0;
-    
+        currentIndex = 0;    
       }
-      else {
+      else { // the traffic is already at the destination
         reachedEnd = true;
         Direction = new PVector(0,0);
       }
-    }
-    
-  }
-  
+    }    
+  }  
 }
   
   

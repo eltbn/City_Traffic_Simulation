@@ -9,7 +9,6 @@ int batchAmt = 1;
 float time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:0
 int timeInterval = 0; // used for 30 simulation minute intervals
 float speedUpFactor = 1;
-String inGameTime = "00:00"; // not going to be a string, just a placeholder
 int frameRate = 60;
  
 boolean Builder; // for building a city or choosing a preset city
@@ -51,7 +50,22 @@ void draw() {
   background(255);
   frameRate(frameRate);
   
+  
+ time += 6*speedUpFactor;
+
+  setTime();
+  if (time / 1800 >= timeInterval) { // every 30 simulation minutes
+    timeInterval ++;
+    if (timeInterval > 51) { //
+      timeInterval = 0; 
+      time = 0;
+    }
+    for (Traffic person : People) {
+      person.checkSchedule(timeInterval);
+    }
+  }
  
+
   for (int i = 0; i < Roads.size(); i++) {
     Roads.get(i).drawRoad();
   }
@@ -62,25 +76,8 @@ void draw() {
     }
   }
   
-  
-  
-  time += 6*speedUpFactor;
-
-  setTime();
-  if (time / 1800 >= timeInterval) {
-    timeInterval ++;
-    if (timeInterval > 51) {
-      timeInterval = 0; 
-      time = 0;
-    }
-    for (Traffic person : People) {
-      person.checkSchedule(timeInterval);
-    }
-  }
-  
-
-  for (Traffic currTraffic : People) {
-
+  for (int i = 0; i < People.size(); i++) {
+    Traffic currTraffic = People.get(i);
     currTraffic.drawTraffic();
     currTraffic.moveTraffic();
   }
@@ -193,9 +190,7 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
   String start = str(selCity-1); // 4 will be changed to the button value from the GUI
   while (!file[sn].substring(0, 2).equals("C" + start)) {
     sn ++;
-    println("sn",sn);
   }
-  // println("final", sn, ":", file[sn]);
   
   int en = sn; // index of the last building; continue from the start index
   
@@ -204,10 +199,8 @@ int [] findPreset(String [] file) { // takes in one of the fileData arrays, outp
     en ++;
   }
   en --;
- // println("final", en, ":", file[en]);
   
-  int numBuildings = en - sn;
- // println(numBuildings);
+  int numBuildings = en - sn; // number of lines between the current city and the next city
   
   int n = 1+sn;
   int [] output = {n, numBuildings};
@@ -229,7 +222,7 @@ void createIntersection() { // this function mainly calls other functions to con
     }
   }
   
-  // Add any remaining start or end points on roads
+  // Add any remaining start or end points on roads as intersections
   for (Road road : Roads) {
     addLoneIntersection(road.startPoint, road);
     addLoneIntersection(road.endPoint, road);
@@ -269,23 +262,19 @@ PVector findIntersection(Road roadA, Road roadB) {
 
 
 void addIntersection(PVector intersectPos, Road roadA, Road roadB) { // general function for safely adding intersections 
-//  boolean isDuplicate = false;
   
   for (Intersection existingIntersection : Intersections) {
     if (existingIntersection.Pos.equals(intersectPos)) {
-  //    isDuplicate = true;
       return; // end the function prematurely
     }
   }
   
-  //if (!isDuplicate) {
-    Intersection intersection = new Intersection(intersectPos); 
-  if (intersection == null) {println(Buildings.get(100)); }
-    Intersections.add(intersection);
-    println("normal intersection at", Intersections.size(), intersectPos, roadA.startPoint, roadA.endPoint, roadB.startPoint, roadB.endPoint);
-    intersection.addConnected(roadA);
+  Intersection intersection = new Intersection(intersectPos); 
+  
+    Intersections.add(intersection); // add intersection to arrays
+    intersection.addConnected(roadA); 
     intersection.addConnected(roadB);
-  //}
+  
 }
 
 void addLoneIntersection(PVector point, Road road) {
@@ -297,12 +286,11 @@ void addLoneIntersection(PVector point, Road road) {
   // If the point is not an intersection, create one at the point
   Intersection intersection = new Intersection(point); 
   Intersections.add(intersection);
-  println("lone intersection at",Intersections.size(), point, road.startPoint, road.endPoint);
   intersection.addConnected(road);
 }
 
 
-Intersection posToIntersection(PVector point) {
+Intersection posToIntersection(PVector point) { // takes a pVector and returns the Intersection at the point
   for (Intersection intersection : Intersections) {
     if (point.equals(intersection.Pos)) {
       return intersection; // Return the intersection if there is an intersection at this point
@@ -312,7 +300,7 @@ Intersection posToIntersection(PVector point) {
 }
 
 
-void setRoadConnections() {
+void setRoadConnections() { // adds any missed raods to their respective connected intersections
   for (Intersection intersection : Intersections) {
     for (Road road : Roads) {
       if (intersection.Pos.equals(road.startPoint) || intersection.Pos.equals(road.endPoint)) {
@@ -323,7 +311,7 @@ void setRoadConnections() {
 }
 
 
-void setSpawnPoints() {
+void setSpawnPoints() { // 
   for (Intersection point : Intersections) {
     if (point != null) {
     if (point.Pos.x == 0 || point.Pos.x == width || point.Pos.y == 0 || point.Pos.y == height) { // if the intersections are on the edge of the screen
