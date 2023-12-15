@@ -124,7 +124,7 @@ class Traffic {
       Schedule.put(time + i*timeRange, chosenLoc);
     } 
    
-    int numNightLoc = int(random(0, 2)); // less overall activity at night
+    int numNightLoc = int(random(0, 3)); // less overall activity at night
     if (numNightLoc != 0) { // people might not need to go out at night
       timeRange = 24/ numNightLoc;
    

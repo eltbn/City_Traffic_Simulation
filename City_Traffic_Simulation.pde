@@ -35,14 +35,7 @@ void setup() {
   buildingData = new String [fileData.length];
   buildingData = fileData;
   
-  // object creation is done in this order intentionally
-  generateRoads(); // creates roads from text file
-  createIntersection(); // creates intersection points at the ends of roads
-
-  generateBuildings(); //creates buildings from text file
-  setSpawnPoints(); // designates certain points, points on edges of screen or buildings to place new traffic objects in
- 
-  setRoadConnections(); // in case connected intersections in roads are not properly set
+  setCity();
 }
 
 
@@ -54,9 +47,9 @@ void draw() {
  time += 6*speedUpFactor;
 
   setTime();
-  if (time / 1800 >= timeInterval) { // every 30 simulation minutes
+  if (time / 1800 >= timeInterval) { // every 30 in-simulation minutes
     timeInterval ++;
-    if (timeInterval > 51) { //
+    if (timeInterval > 49) { //
       timeInterval = 0; 
       time = 0;
     }
@@ -341,10 +334,26 @@ void resetCity () { // reset everything stored
   Buildings.clear();
   People.clear();
   Intersections.clear();
+  spawnPoints.clear();
   clear();
-  generateRoads();
-  createIntersection();
-  generateBuildings();
+  
+  setCity();
+}
+
+
+void setCity() {
+  // object creation is done in this order intentionally
+  generateRoads(); // creates roads from text file
+  createIntersection(); // creates intersection points at the ends of roads
+
+  generateBuildings(); //creates buildings from text file
+  setSpawnPoints(); // designates certain points, points on edges of screen or buildings to place new traffic objects in
+  setRoadConnections(); // in case connected intersections in roads are not properly set
+  
   timeInterval = 0; 
   time = 0;
+}
+
+void mousePressed() {
+  println(mouseX, mouseY);
 }

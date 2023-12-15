@@ -7,16 +7,26 @@ T: Mart X: 465 Y: 225 S: 50 E: d
 T: Mart X: 465 Y: 325 S: 50 E: u
 T: House X: 70 Y: 325 S: 50 E: d
 T: House X: 130 Y: 325 S: 50 E: d
+T: House X: 190 Y: 325 S: 50 E: d
 C1:
 T: Bank X: 300 Y: 500 E: udlr
 T: School X: 600 Y: 300 E: udlr
 T: School X: 0 Y: 300 E: udlr
 C2:
+T: School X: 10 Y: 20 S: 150 E: d
+T: House X: 365 Y: 325 S: 50 E: u
+T: Bank X: 365 Y: 225 S: 50 E: d
+T: House X: 10 Y: 325 S: 50 E: d
+T: Mart X: 465 Y: 225 S: 50 E: d
+T: Mart X: 465 Y: 325 S: 50 E: u
+T: House X: 70 Y: 325 S: 50 E: d
+T: House X: 130 Y: 325 S: 50 E: d
+T: House X: 190 Y: 325 S: 50 E: d
 C3:
-T: Bank X: 1 Y: 1 S: 150 E: udlr
-T: Bank X: 182 Y: 1 S: 150 E: udlr
-T: Bank X: 364 Y: 1 S: 150 E: udlr
-T: Bank X: 546 Y: 1 S: 150 E: udlr
+T: Bank X: 1 Y: 1 S: 150 E: d
+T: Bank X: 182 Y: 1 S: 150 E: 
+T: Bank X: 364 Y: 1 S: 150 E: 
+T: Bank X: 546 Y: 1 S: 150 E: 
 C4:
 C5:
 C6:

@@ -2,15 +2,20 @@ boolean pause_button_option = false;
 
 
 String convertToTimeFormat(float totalTime) {
-  float seconds = totalTime; // Calculate seconds
-  //println(seconds);
-  int minutes = floor(seconds / 60) % 60; // Extract minutes
-  int hours = floor(seconds / 3600) % 24; // Extract hours
-  if (seconds/86400 == 1) {
-    seconds = 0;
+  String Meridiem; // AM or PM
+  int minutes = floor(totalTime / 60) % 60; // Extract minutes
+  int hours = floor(totalTime / 3600) % 24; // Extract hours
+  if (totalTime/86400 == 1) {
+    totalTime = 0;
   }
-
-  String gameTime = nf(hours, 2) + ":" + nf(minutes, 2); // create string as displayed time 
+  if (hours < 12) {
+    Meridiem = "AM"; 
+  }
+  else {
+    Meridiem = "PM";
+  }
+  
+  String gameTime = nf(hours%12, 2) + ":" + nf(minutes, 2) + " "+Meridiem; // create string as displayed time 
   return gameTime;
 }
 

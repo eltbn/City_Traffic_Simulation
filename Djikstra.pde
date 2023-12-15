@@ -10,7 +10,7 @@ void djikstra(Intersection start){ // Djikstra's algorithm doesn't directly find
   }
   
   start.minDist = 0; // ensures that the start will be added first
-  while(unvisited.size() != 0) {
+  while (unvisited.size() != 0) {
     Intersection current = getNextMinIntersection(unvisited); // from the current intersection, find the next lowest distance intersection
     unvisited.remove(current); // set this intersection as visited
     

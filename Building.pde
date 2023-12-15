@@ -22,8 +22,8 @@ class Building { //
    
   }
   
-  void placeEntrances() { // based on the entrancePoint array which contains characters indicating the cardinal direction of the entrance
-    Intersection [] toPlace = new Intersection[Entrance.length]; // for potential optimization since adding the function also unnecessarily checks newly added intersections, also used to use Array iterating loops
+  void placeEntrances() { // based on the entrancePoint array which contains characters for the cardinal direction of the entrance
+    Intersection [] toPlace = new Intersection[Entrance.length]; // for potential optimization since adding the function also unnecessarily checks newly added intersections
     for (int i = 0; i < Entrance.length; i++) {
       switch (this.Entrance[i]) { // the cases are similar and only differ with the conditional
         case 'u':
@@ -31,7 +31,7 @@ class Building { //
             if (point != null) {
             if (point.Pos.x >= this.Pos.x && point.Pos.x <= this.Pos.x + this.Size && point.Pos.y <= this.Pos.y && abs(this.Pos.y - point.Pos.y) <= 50) { // check if intersection is above the building
               float pointX = point.Pos.x;
-              PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4); // make the entrance more closer to the sides
+              PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4); // make the entrance more closer to the sides of the building
               Intersection entIntersection = new Intersection(intersectionPos);
               Road entRoad = new Road(intersectionPos, point.Pos, 1);
               
