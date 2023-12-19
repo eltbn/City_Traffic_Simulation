@@ -45,7 +45,6 @@ Intersection getNextMinIntersection(ArrayList <Intersection> unvisited) {
 
 Intersection getNeighbourIntersection(Intersection intersection, Road road) {
     Intersection neighbor = null;
-  println("find neighbour",intersection.Pos, road.startPoint, road.endPoint);
     // If the road's startPoint matches the intersection's position, the endPoint is the neighboring intersection
     if (intersection.Pos.equals(road.startPoint)) {
         neighbor = posToIntersection(road.endPoint); // Implement findIntersectionByPosition() method

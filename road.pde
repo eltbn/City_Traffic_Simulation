@@ -4,7 +4,9 @@ PVector startPoint,endPoint;
 int speedLimit;
 float dist, max, min; // max and min are the max and min of x values if horizontal, and y values if vertical, they are variables so that they can nbe easily accessed
 Boolean horizontal; // expressed as a boolean since there are only 2 possibilities for a road; indicates if traffic should check x or y things such as drawing roads
+
 ArrayList <Traffic> People_in_Road = new ArrayList<Traffic>();
+HashMap <PVector, Float> rightSide = new HashMap <PVector, Float>(); // cars will check the returned value to adjust to the right side of the road ,
 
 Road(PVector sP, PVector eP, int sl) {
   this.startPoint = sP;
@@ -22,7 +24,15 @@ Road(PVector sP, PVector eP, int sl) {
     max = max(this.startPoint.y, this.endPoint.y);
   }
   this.dist = calculateWeight();
- 
+  if (this.horizontal) {
+    rightSide.put(new PVector(1, 0), this.startPoint.y + roadSize/4);
+    rightSide.put(new PVector(-1, 0), this.startPoint.y - roadSize/4);
+  }
+  else {
+    rightSide.put(new PVector(0, 1), this.startPoint.x + roadSize/4);
+    rightSide.put(new PVector(0, -1), this.startPoint.x - roadSize/4);
+  }
+  
 }
 
 

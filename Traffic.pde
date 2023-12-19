@@ -48,7 +48,8 @@ class Traffic {
     if (!reachedEnd) {
       if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) { // if the traffic passes the next intersection in their path
         currentIndex ++; // removing the item at index 0 from the path ArrayList would be more costly since all items are shifted down one index
-        this.Pos = Path.get(currentIndex).Pos.copy(); // ensure traffic stays on the road, especially with higher speeds
+        this.Pos = Path.get(currentIndex).Pos.copy(); // ensure traffic stays on the road, especially with higher speeds where cars would skip over roads
+        
         previousPoint = Path.get(currentIndex); // take the last index the traffic was on in case the schedule changes while it is moving
         
         if (currentIndex + 1 < Path.size()) { // if there is a next insection
@@ -64,7 +65,15 @@ class Traffic {
     }
   }
   
-  
+  PVector adjustToRightSide() {
+    float check = inRoad.rightSide.get(this.Direction);
+    if (inRoad.horizontal) {
+      return new PVector(0, constrain(check - this.Pos.y, -1.0, 1.0));
+    }
+    else  {
+      return new PVector(constrain(check-this.Pos.x, -1, 1), 0);
+    }
+  }
 
   boolean reachedNextIntersection(PVector targetLoc) { // returns true if the traffic has passed the intersection by comparing x or y values
     if (inRoad.horizontal) { // if horizontal, x values will be checked
@@ -115,13 +124,14 @@ class Traffic {
   }
 
   void setSchedule() { // traffic will have up to 6 buildings to go to each day
-    int numDayLoc = int(random(1,4));    
+    int numDayLoc = int(random(1,6));    
     int timeRange = 24 / numDayLoc; // time range between moving to next location so that traffic is more likely to reach their destination before moving again, counts up by 30 minutes
         
     for (int i = 0; i < numDayLoc; i++) {
       Building chosenLoc = Buildings.get(int(random(0,Buildings.size() - 1)));
       int time = int(random(0, timeRange));
       Schedule.put(time + i*timeRange, chosenLoc);
+              println("morning", time + i*timeRange + 12);
     } 
    
     int numNightLoc = int(random(0, 3)); // less overall activity at night
@@ -132,6 +142,7 @@ class Traffic {
         Building chosenLoc = Buildings.get(int(random(0, Buildings.size() - 1)));
         int time = int(random(0, timeRange));
         Schedule.put(time + i*timeRange + 12, chosenLoc); // setting the hashmap so when the time is input and there is a value associated, it will return the value
+        println("night",time + i*timeRange + 12);
       }
     }
   }
@@ -139,7 +150,7 @@ class Traffic {
   
   void checkSchedule (int time) { // inputs the key into the schedule hashmap, and setting the destination if a value is returned   
     Building check = Schedule.get(time);
-    if (check != null && reachedEnd) {
+    if (check != null && reachedEnd) { // if the person has a scheduled building at this time
       
       Path = getShortestPath(previousPoint, check.entrancePoint[int(random(0, check.entrancePoint.length))]);
       reachedEnd = false;
@@ -147,7 +158,6 @@ class Traffic {
       if (Path.size() != 1) { // if the traffic is not currently at the destination
         inRoad = roadBetween(Path.get(0), Path.get(1)); // calling this function so that traffic is initialized with their current road set
         Direction = determineDirection(Path.get(0).Pos, Path.get(1).Pos);
-        println("direction returned", Direction);
         currentIndex = 0;    
       }
       else { // the traffic is already at the destination
