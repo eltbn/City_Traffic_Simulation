@@ -2,16 +2,21 @@ import g4p_controls.*;
 
 int roadSize = 30;
 int selCity = 1; // put GUI but also changable here
-int startTime = 21600;
+int startTime = 0;
 
 
 int batchAmt = 1;
+int numDayMax = 3; // the number of buildings in the schedule are randomized by default
+int numNightMax = 3;
+Boolean randomizeSchedule = true; // option to randomize the amount of locations each day
+
+
 float time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:0
 int timeInterval = 0; // used for 30 simulation minute intervals
 float speedUpFactor = 1;
 int frameRate = 60;
  
-boolean Builder; // for building a city or choosing a preset city
+boolean showIntersection = true; // this option is in here since showing intersections isn't realistic for the simulation, but is helpful for debugging
 
 String [] roadData;
 String [] buildingData;
@@ -23,6 +28,7 @@ ArrayList <Intersection> spawnPoints = new ArrayList <Intersection>(); // traffi
 ArrayList <Building> Buildings = new ArrayList<Building>();
 ArrayList <Traffic> People = new ArrayList<Traffic>();
 HashMap <PVector, PVector> rightSide = new HashMap <PVector, PVector>(); // determines the right side position of cars to the road by adding its value, hashmaps return the second value when the first value (key) is input
+
 
 void setup() {
   size(700, 700);
@@ -70,9 +76,11 @@ void draw() {
     Roads.get(i).drawRoad();
   }
   
-  for (Intersection currIntersection : Intersections) {
-    if (currIntersection != null) {
-    currIntersection.drawIntersection();
+  if (showIntersection) {
+    for (Intersection currIntersection : Intersections) {
+      if (currIntersection != null) {
+      currIntersection.drawIntersection();
+      }
     }
   }
   

@@ -43,12 +43,24 @@ class Traffic {
   void moveTraffic() {
     PVector Move = Direction.copy(); // copy is used so that Move doesn't use a reference to Direction and multiply itself as a result
     Move.mult(speedUpFactor);
+    
+    if (!reachedEnd) {
+    float check = inRoad.rightSide.get(this.Direction);
+    if (inRoad.horizontal) {
+      Move.y = constrain(check - this.Pos.y, -1.0, 1.0);
+    }
+    else  {
+      Move.x = constrain(check-this.Pos.x, -1, 1);
+    }
+    }
+    
     this.Pos.add(Move);
+    
 
     if (!reachedEnd) {
       if (inRoad != null && reachedNextIntersection(Path.get(currentIndex+1).Pos)) { // if the traffic passes the next intersection in their path
         currentIndex ++; // removing the item at index 0 from the path ArrayList would be more costly since all items are shifted down one index
-        this.Pos = Path.get(currentIndex).Pos.copy(); // ensure traffic stays on the road, especially with higher speeds where cars would skip over roads
+        //this.Pos = Path.get(currentIndex).Pos.copy(); // ensure traffic stays on the road, especially with higher speeds where cars would skip over roads
         
         previousPoint = Path.get(currentIndex); // take the last index the traffic was on in case the schedule changes while it is moving
         
@@ -64,32 +76,22 @@ class Traffic {
       }
     }
   }
-  
-  PVector adjustToRightSide() {
-    float check = inRoad.rightSide.get(this.Direction);
-    if (inRoad.horizontal) {
-      return new PVector(0, constrain(check - this.Pos.y, -1.0, 1.0));
-    }
-    else  {
-      return new PVector(constrain(check-this.Pos.x, -1, 1), 0);
-    }
-  }
 
   boolean reachedNextIntersection(PVector targetLoc) { // returns true if the traffic has passed the intersection by comparing x or y values
     if (inRoad.horizontal) { // if horizontal, x values will be checked
       if (Direction.x < 0) { 
-        return this.Pos.x < targetLoc.x ;
+        return this.Pos.x < targetLoc.x + roadSize/4;
       }
       else {
-        return this.Pos.x > targetLoc.x ;
+        return this.Pos.x > targetLoc.x - roadSize/4;
       }
     }
     else { // if vertical, y values will be checked
      if (Direction.y < 0) {
-       return this.Pos.y < targetLoc.y ;
+       return this.Pos.y < targetLoc.y + roadSize/4;
      }
      else {
-       return this.Pos.y > targetLoc.y ; 
+       return this.Pos.y > targetLoc.y - roadSize/4; 
      }
    }
  }
@@ -124,25 +126,39 @@ class Traffic {
   }
 
   void setSchedule() { // traffic will have up to 6 buildings to go to each day
-    int numDayLoc = int(random(1,6));    
+    Schedule.clear();
+    int numDayLoc;
+    int numNightLoc;
+    
+    
+    if (randomizeSchedule) {
+      numDayLoc = int(random(0, numDayMax)); 
+      numNightLoc = int(random(0, numNightMax)); 
+    }
+    else {
+      numDayLoc = numDayMax;
+      numNightLoc = numNightMax;
+    }
+    
+    if (numDayLoc != 0) {
     int timeRange = 24 / numDayLoc; // time range between moving to next location so that traffic is more likely to reach their destination before moving again, counts up by 30 minutes
         
     for (int i = 0; i < numDayLoc; i++) {
       Building chosenLoc = Buildings.get(int(random(0,Buildings.size() - 1)));
-      int time = int(random(0, timeRange));
-      Schedule.put(time + i*timeRange, chosenLoc);
-              println("morning", time + i*timeRange + 12);
+      int setTime = int(random(0, timeRange));
+      Schedule.put(setTime + i*timeRange, chosenLoc);
+      println("morning", setTime + i*timeRange);
     } 
-   
-    int numNightLoc = int(random(0, 3)); // less overall activity at night
-    if (numNightLoc != 0) { // people might not need to go out at night
-      timeRange = 24/ numNightLoc;
+    }
+  
+    if (numNightLoc != 0) {
+      int timeRange = 24/ numNightLoc;
    
       for (int i = 0; i < numNightLoc; i++) {
         Building chosenLoc = Buildings.get(int(random(0, Buildings.size() - 1)));
-        int time = int(random(0, timeRange));
-        Schedule.put(time + i*timeRange + 12, chosenLoc); // setting the hashmap so when the time is input and there is a value associated, it will return the value
-        println("night",time + i*timeRange + 12);
+        int setTime = int(random(0, timeRange));
+        Schedule.put(setTime + i*timeRange + 12, chosenLoc); // setting the hashmap so when the time is input and there is a value associated, it will return the value
+        println("night",setTime + i*timeRange + 12);
       }
     }
   }

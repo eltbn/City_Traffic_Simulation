@@ -26,12 +26,12 @@ public void Time_Changed(GSlider source, GEvent event) { //_CODE_:Time_Scale:418
 public void Pause_Start(GButton source, GEvent event) { //_CODE_:Pause_Button:630141:
   if (pause_button_option == false) {
    pause_button_option = true;
-   Pause_Button.setText("RESUME");
+   Pause_Button.setText("Resume");
    noLoop();
   }
   else {
    pause_button_option = false;
-   Pause_Button.setText("PAUSE");
+   Pause_Button.setText("Pause");
    loop();
   }
 } //_CODE_:Pause_Button:630141:
@@ -56,13 +56,36 @@ public void AmountTrafficChanged(GSlider source, GEvent event) { //_CODE_:BatchA
   batchAmt = BatchAmount.getValueI();
 } //_CODE_:BatchAmount:247318:
 
-public void BatchAmountIndicator(GTextField source, GEvent event) { //_CODE_:Batch_Amount_Scale:423078:
-  println("Batch_Amount_Scale - GTextField >> GEvent." + event + " @ " + millis());
-} //_CODE_:Batch_Amount_Scale:423078:
-
 public void ResetClicked(GButton source, GEvent event) { //_CODE_:ResetButton:824381:
   resetCity();
 } //_CODE_:ResetButton:824381:
+
+public void scheduleReset(GButton source, GEvent event) { //_CODE_:schedule:571452:
+  for (Traffic person: People) {
+    person.setSchedule(); 
+  }
+} //_CODE_:schedule:571452:
+
+public void DayScheduleAdjust(GSlider source, GEvent event) { //_CODE_:DaySlider:260368:
+  numDayMax = DaySlider.getValueI();
+} //_CODE_:DaySlider:260368:
+
+public void NightScheduleAdjust(GSlider source, GEvent event) { //_CODE_:NightSlider:585969:
+  numNightMax = NightSlider.getValueI();
+} //_CODE_:NightSlider:585969:
+
+public void Randomize(GButton source, GEvent event) { //_CODE_:RandomizeButton:766811:
+  if (randomizeSchedule == true) {
+   randomizeSchedule = false;
+   RandomizeButton.setText("Fixed Schedule");
+  }
+  else {
+   randomizeSchedule = true;
+   RandomizeButton.setText("Random Schedule");
+  }
+  
+  //randomizeSchedule = false;
+} //_CODE_:RandomizeButton:766811:
 
 
 
@@ -73,31 +96,31 @@ public void createGUI(){
   G4P.setGlobalColorScheme(GCScheme.BLUE_SCHEME);
   G4P.setMouseOverEnabled(false);
   surface.setTitle("Sketch Window");
-  window1 = GWindow.getWindow(this, "Window title", 0, 0, 360, 360, JAVA2D);
+  window1 = GWindow.getWindow(this, "Window title", 0, 0, 360, 350, JAVA2D);
   window1.noLoop();
   window1.setActionOnClose(G4P.KEEP_OPEN);
   window1.addDrawHandler(this, "win_draw1");
-  Time_Scale = new GSlider(window1, 10, 34, 190, 40, 10.0);
+  Time_Scale = new GSlider(window1, 10, 55, 190, 40, 10.0);
   Time_Scale.setShowValue(true);
   Time_Scale.setShowLimits(true);
-  Time_Scale.setLimits(1.0, 0.5, 10.0);
+  Time_Scale.setLimits(1.0, 0.1, 10.0);
   Time_Scale.setNbrTicks(5);
   Time_Scale.setNumberFormat(G4P.DECIMAL, 0);
   Time_Scale.setOpaque(false);
   Time_Scale.addEventHandler(this, "Time_Changed");
-  Pause_Button = new GButton(window1, 65, 80, 80, 30);
+  Pause_Button = new GButton(window1, 20, 105, 80, 30);
   Pause_Button.setText("Pause");
   Pause_Button.addEventHandler(this, "Pause_Start");
-  Preset_Selector = new GDropList(window1, 240, 94, 90, 100, 4, 10);
+  Preset_Selector = new GDropList(window1, 245, 50, 90, 80, 4, 10);
   Preset_Selector.setItems(loadStrings("list_642755"), 0);
   Preset_Selector.addEventHandler(this, "Preset_Changed");
-  TrafficSpawner = new GButton(window1, 22, 302, 80, 30);
+  TrafficSpawner = new GButton(window1, 20, 300, 80, 30);
   TrafficSpawner.setText("Spawn Traffic");
   TrafficSpawner.addEventHandler(this, "TrafficSpawned");
-  BatchSpawn = new GButton(window1, 119, 302, 80, 30);
+  BatchSpawn = new GButton(window1, 110, 300, 80, 30);
   BatchSpawn.setText("Batch Spawn");
   BatchSpawn.addEventHandler(this, "button1_click1");
-  BatchAmount = new GSlider(window1, 41, 245, 139, 51, 10.0);
+  BatchAmount = new GSlider(window1, 36, 232, 139, 51, 10.0);
   BatchAmount.setShowValue(true);
   BatchAmount.setShowLimits(true);
   BatchAmount.setLimits(1, 1, 5);
@@ -107,17 +130,63 @@ public void createGUI(){
   BatchAmount.setNumberFormat(G4P.INTEGER, 0);
   BatchAmount.setOpaque(false);
   BatchAmount.addEventHandler(this, "AmountTrafficChanged");
-  Batch_Amount_Scale = new GTextField(window1, 50, 216, 120, 19, G4P.SCROLLBARS_NONE);
-  Batch_Amount_Scale.setText("Batch amount");
-  Batch_Amount_Scale.setOpaque(true);
-  Batch_Amount_Scale.addEventHandler(this, "BatchAmountIndicator");
-  ResetButton = new GButton(window1, 247, 40, 80, 30);
+  ResetButton = new GButton(window1, 110, 105, 80, 30);
   ResetButton.setText("Reset");
   ResetButton.addEventHandler(this, "ResetClicked");
-  SpeedLabel = new GLabel(window1, 66, 18, 80, 20);
+  SpeedLabel = new GLabel(window1, 60, 45, 80, 20);
   SpeedLabel.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   SpeedLabel.setText("Speed");
   SpeedLabel.setOpaque(false);
+  BatchAmountLabel = new GLabel(window1, 52, 226, 107, 20);
+  BatchAmountLabel.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  BatchAmountLabel.setText("Amount Spawned");
+  BatchAmountLabel.setOpaque(false);
+  schedule = new GButton(window1, 235, 300, 100, 30);
+  schedule.setText("Set Schedules");
+  schedule.addEventHandler(this, "scheduleReset");
+  DaySlider = new GSlider(window1, 235, 155, 100, 50, 10.0);
+  DaySlider.setShowValue(true);
+  DaySlider.setShowLimits(true);
+  DaySlider.setLimits(3, 0, 6);
+  DaySlider.setNbrTicks(6);
+  DaySlider.setStickToTicks(true);
+  DaySlider.setShowTicks(true);
+  DaySlider.setNumberFormat(G4P.INTEGER, 0);
+  DaySlider.setOpaque(false);
+  DaySlider.addEventHandler(this, "DayScheduleAdjust");
+  NightSlider = new GSlider(window1, 235, 210, 100, 50, 10.0);
+  NightSlider.setShowValue(true);
+  NightSlider.setShowLimits(true);
+  NightSlider.setLimits(3, 0, 6);
+  NightSlider.setNbrTicks(6);
+  NightSlider.setStickToTicks(true);
+  NightSlider.setShowTicks(true);
+  NightSlider.setNumberFormat(G4P.INTEGER, 0);
+  NightSlider.setOpaque(false);
+  NightSlider.addEventHandler(this, "NightScheduleAdjust");
+  NightSchedules = new GLabel(window1, 230, 195, 110, 20);
+  NightSchedules.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  NightSchedules.setText("Night Locations");
+  NightSchedules.setOpaque(false);
+  DaySchedule = new GLabel(window1, 230, 140, 110, 20);
+  DaySchedule.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  DaySchedule.setText("Day Locations");
+  DaySchedule.setOpaque(false);
+  SimulationSettings = new GLabel(window1, 140, 10, 116, 25);
+  SimulationSettings.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  SimulationSettings.setText("Simulation Settings");
+  SimulationSettings.setOpaque(false);
+  RandomizeButton = new GButton(window1, 225, 260, 120, 30);
+  RandomizeButton.setText("Random Schedule");
+  RandomizeButton.addEventHandler(this, "Randomize");
+  ScheduleLabel = new GLabel(window1, 230, 110, 112, 20);
+  ScheduleLabel.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  ScheduleLabel.setText("Schedule Settings");
+  ScheduleLabel.setOpaque(false);
+  TrafficSpawningLabel = new GLabel(window1, 55, 195, 100, 20);
+  TrafficSpawningLabel.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
+  TrafficSpawningLabel.setText("Traffic Spawning");
+  TrafficSpawningLabel.setOpaque(false);
   window1.loop();
 }
 
@@ -130,6 +199,15 @@ GDropList Preset_Selector;
 GButton TrafficSpawner; 
 GButton BatchSpawn; 
 GSlider BatchAmount; 
-GTextField Batch_Amount_Scale; 
 GButton ResetButton; 
 GLabel SpeedLabel; 
+GLabel BatchAmountLabel; 
+GButton schedule; 
+GSlider DaySlider; 
+GSlider NightSlider; 
+GLabel NightSchedules; 
+GLabel DaySchedule; 
+GLabel SimulationSettings; 
+GButton RandomizeButton; 
+GLabel ScheduleLabel; 
+GLabel TrafficSpawningLabel; 

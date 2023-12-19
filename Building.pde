@@ -31,7 +31,7 @@ class Building { //
             if (point != null) {
             if (point.Pos.x >= this.Pos.x && point.Pos.x <= this.Pos.x + this.Size && point.Pos.y <= this.Pos.y && abs(this.Pos.y - point.Pos.y) <= 50) { // check if intersection is above the building
               float pointX = point.Pos.x;
-              PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4); // make the entrance more closer to the sides of the building
+              PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/3); // make the entrance more closer to the sides of the building
               Intersection entIntersection = new Intersection(intersectionPos);
               Road entRoad = new Road(intersectionPos, point.Pos, 1);
               
@@ -48,7 +48,7 @@ class Building { //
             if (point != null){
             if (point.Pos.x >= this.Pos.x && point.Pos.x <= this.Pos.x + this.Size && point.Pos.y >= this.Pos.y && abs(this.Pos.y + this.Size - point.Pos.y) <= 50) { // check if intersection is below the building
               float pointX = point.Pos.x;
-              PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/4*3);
+              PVector intersectionPos = new PVector(pointX, this.Pos.y + this.Size/3*2);
               Intersection entIntersection = new Intersection(intersectionPos);
               Road entRoad = new Road(intersectionPos, point.Pos, 1);
               
@@ -65,7 +65,7 @@ class Building { //
             if (point != null) {
             if (point.Pos.y >= this.Pos.y && point.Pos.y <= this.Pos.y + this.Size && point.Pos.x <= this.Pos.x && abs(this.Pos.x - point.Pos.x) <= 50) { // check if intersection is above the building
               float pointY = point.Pos.y;
-              PVector intersectionPos = new PVector(this.Pos.x + this.Size/4, pointY);
+              PVector intersectionPos = new PVector(this.Pos.x + this.Size/3, pointY);
               Intersection entIntersection = new Intersection(intersectionPos);
               Road entRoad = new Road(intersectionPos, point.Pos, 1);
               
@@ -82,7 +82,7 @@ class Building { //
             if (point != null) {
             if (point.Pos.y >= this.Pos.y && point.Pos.y <= this.Pos.y + this.Size && point.Pos.x >= this.Pos.x && abs(this.Pos.y - point.Pos.y) <= 50) { // check if intersection is above the building
               float pointY = point.Pos.y;
-              PVector intersectionPos = new PVector(this.Pos.x + this.Size/4, pointY);
+              PVector intersectionPos = new PVector(this.Pos.x + this.Size/3, pointY);
               Intersection entIntersection = new Intersection(intersectionPos);
               Road entRoad = new Road(intersectionPos, point.Pos, 1);
               

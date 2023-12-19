@@ -13,7 +13,8 @@ Road(PVector sP, PVector eP, int sl) {
   this.endPoint = eP;
   this.speedLimit = sl;
   this.name = Roads.size(); // road names are the index of this object in the Roads list
-  if (this.startPoint.x == this.endPoint.x) {
+  
+  if (this.startPoint.x == this.endPoint.x) { // sets the min and max of the start and end points
     horizontal = false;
     min = min(this.startPoint.y, this.endPoint.y);
     max = max(this.startPoint.y, this.endPoint.y);
@@ -22,15 +23,16 @@ Road(PVector sP, PVector eP, int sl) {
     horizontal = true;
     min = min(this.startPoint.y, this.endPoint.y);
     max = max(this.startPoint.y, this.endPoint.y);
-  }
+  }  
   this.dist = calculateWeight();
-  if (this.horizontal) {
+  
+  if (this.horizontal) { // for the rightSide hashmap, sets key and values based on whether the road is horizontal or vertical
     rightSide.put(new PVector(1, 0), this.startPoint.y + roadSize/4);
     rightSide.put(new PVector(-1, 0), this.startPoint.y - roadSize/4);
   }
   else {
-    rightSide.put(new PVector(0, 1), this.startPoint.x + roadSize/4);
-    rightSide.put(new PVector(0, -1), this.startPoint.x - roadSize/4);
+    rightSide.put(new PVector(0, 1), this.startPoint.x - roadSize/4);
+    rightSide.put(new PVector(0, -1), this.startPoint.x + roadSize/4);
   }
   
 }

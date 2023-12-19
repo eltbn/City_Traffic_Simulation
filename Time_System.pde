@@ -3,8 +3,10 @@ boolean pause_button_option = false;
 
 String convertToTimeFormat(float totalTime) {
   String Meridiem; // AM or PM
-  int minutes = floor(totalTime / 60) % 60; // Extract minutes
-  int hours = floor(totalTime / 3600) % 24; // Extract hours
+  float displayTime = totalTime + 21600;
+  
+  int minutes = floor(displayTime / 60) % 60; // Extract minutes
+  int hours = floor(displayTime / 3600) % 24; // Extract hours
   if (totalTime/86400 == 1) {
     totalTime = 0;
   }
