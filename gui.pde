@@ -87,6 +87,11 @@ public void Randomize(GButton source, GEvent event) { //_CODE_:RandomizeButton:7
   //randomizeSchedule = false;
 } //_CODE_:RandomizeButton:766811:
 
+public void button1_click2(GButton source, GEvent event) { //_CODE_:ClockButton:440450:
+  moveTime = true;
+  ClockButton.setText("Moving Clock");
+} //_CODE_:ClockButton:440450:
+
 
 
 // Create all the GUI controls. 
@@ -111,7 +116,7 @@ public void createGUI(){
   Pause_Button = new GButton(window1, 20, 105, 80, 30);
   Pause_Button.setText("Pause");
   Pause_Button.addEventHandler(this, "Pause_Start");
-  Preset_Selector = new GDropList(window1, 245, 50, 90, 80, 4, 10);
+  Preset_Selector = new GDropList(window1, 245, 35, 90, 80, 4, 10);
   Preset_Selector.setItems(loadStrings("list_642755"), 0);
   Preset_Selector.addEventHandler(this, "Preset_Changed");
   TrafficSpawner = new GButton(window1, 20, 300, 80, 30);
@@ -187,6 +192,9 @@ public void createGUI(){
   TrafficSpawningLabel.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   TrafficSpawningLabel.setText("Traffic Spawning");
   TrafficSpawningLabel.setOpaque(false);
+  ClockButton = new GButton(window1, 65, 150, 80, 30);
+  ClockButton.setText("Move Clock");
+  ClockButton.addEventHandler(this, "button1_click2");
   window1.loop();
 }
 
@@ -211,3 +219,4 @@ GLabel SimulationSettings;
 GButton RandomizeButton; 
 GLabel ScheduleLabel; 
 GLabel TrafficSpawningLabel; 
+GButton ClockButton; 

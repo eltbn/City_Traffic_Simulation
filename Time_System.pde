@@ -21,8 +21,8 @@ String convertToTimeFormat(float totalTime) {
   return gameTime;
 }
 
-void setTime() {
+void setTime() { // creates the simulation clock
  textSize(35);
  fill(204, 0, 50);
- text(convertToTimeFormat(time), 450, 600); 
+ text(convertToTimeFormat(time), timePos.x, timePos.y); 
 }

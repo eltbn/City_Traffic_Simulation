@@ -64,8 +64,8 @@ ArrayList<Intersection> getShortestPath(Intersection start, Intersection end) {
   djikstra(start);
   Intersection current = end; // from the end intersection, trace the path using prevnode
   while (current != null) {
-      path.add(current);
-      current = current.Prevnode;
+    path.add(current);
+    current = current.Prevnode;
   }
 
   path = reverseArrayList(path); // the path needs to be reversed since points added earlier use bigger indexes
@@ -73,7 +73,7 @@ ArrayList<Intersection> getShortestPath(Intersection start, Intersection end) {
 }
 
 
-ArrayList <Intersection> reverseArrayList(ArrayList<Intersection> list) {
+ArrayList <Intersection> reverseArrayList(ArrayList<Intersection> list) { // made specifically for djikstra's algorithm
   ArrayList <Intersection> newList = new ArrayList <Intersection>();
   for (int i = list.size() - 1; i >= 0; i--) {
     newList.add(list.get(i));

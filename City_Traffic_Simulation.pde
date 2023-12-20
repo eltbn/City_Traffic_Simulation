@@ -1,7 +1,11 @@
 import g4p_controls.*;
 
+
+boolean showIntersection = true; // this option is in here since showing intersections isn't realistic for the simulation, but is helpful for debugging
 int roadSize = 30;
 int selCity = 1; // put GUI but also changable here
+
+
 int startTime = 0;
 
 
@@ -14,9 +18,12 @@ Boolean randomizeSchedule = true; // option to randomize the amount of locations
 float time = 0; // this will be the global time variable used, 1 second = 60 seconds | time = 0 -> 60, time in game = 00:00 -> 00:0
 int timeInterval = 0; // used for 30 simulation minute intervals
 float speedUpFactor = 1;
+PVector timePos = new PVector(500, 650);
+Boolean moveTime = false;
+
+
 int frameRate = 60;
- 
-boolean showIntersection = true; // this option is in here since showing intersections isn't realistic for the simulation, but is helpful for debugging
+
 
 String [] roadData;
 String [] buildingData;
@@ -57,6 +64,32 @@ void draw() {
   frameRate(frameRate);
   
 
+  for (int i = 0; i < Roads.size(); i++) {
+    Roads.get(i).drawRoad();
+  }
+  
+  
+  if (showIntersection) {
+    for (Intersection currIntersection : Intersections) {
+      if (currIntersection != null) {
+      currIntersection.drawIntersection();
+      }
+    }
+  }
+  fill(255,0,0);
+  for (int i = 0; i < People.size(); i++) {
+    Traffic currTraffic = People.get(i);
+    currTraffic.drawTraffic();
+    currTraffic.moveTraffic();
+  }
+  
+  
+  for (Building currBuilding : Buildings) {
+    currBuilding.drawBuilding();
+  }
+  
+   
+  
   time += 6*speedUpFactor;
 
   setTime();
@@ -69,30 +102,6 @@ void draw() {
     for (Traffic person : People) {
       person.checkSchedule(timeInterval);
     }
-  }
- 
-
-  for (int i = 0; i < Roads.size(); i++) {
-    Roads.get(i).drawRoad();
-  }
-  
-  if (showIntersection) {
-    for (Intersection currIntersection : Intersections) {
-      if (currIntersection != null) {
-      currIntersection.drawIntersection();
-      }
-    }
-  }
-  
-  for (int i = 0; i < People.size(); i++) {
-    Traffic currTraffic = People.get(i);
-    currTraffic.drawTraffic();
-    currTraffic.moveTraffic();
-  }
-  
-  for (Building currBuilding : Buildings) {
-
-    currBuilding.drawBuilding();
   }
 }
 
@@ -131,6 +140,24 @@ void setCity() {
   time = startTime;
 }
 
+
 void mousePressed() {
-  println(mouseX, mouseY);
+  println(mouseX, mouseY); // used for debugging
+  if (!moveTime) {
+    if (mouseX > timePos.x-5 && mouseX < timePos.x+175 && mouseY > timePos.y-30 && mouseY < timePos.y+10) {
+      println("inrange");
+      moveTime = true;
+      println("dragged");
+    }
+  }
+  else {
+    moveTime = false;
+    ClockButton.setText("Move Clock");
+  }
+}
+
+void mouseMoved() {
+  if (moveTime) {
+    timePos = new PVector(mouseX, mouseY);
+  }
 }

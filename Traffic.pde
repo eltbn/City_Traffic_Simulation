@@ -35,6 +35,7 @@ class Traffic {
     }
   }
   
+  
   void drawTraffic () {
     rect(this.Pos.x - 5, this.Pos.y - 5, 10, 10);
   }
@@ -45,7 +46,7 @@ class Traffic {
     Move.mult(speedUpFactor);
     
     if (!reachedEnd) {
-    float check = inRoad.rightSide.get(this.Direction);
+    float check = inRoad.rightSide.get(this.Direction); // cars will move to the right side of the road
     if (inRoad.horizontal) {
       Move.y = constrain(check - this.Pos.y, -1.0, 1.0);
     }
@@ -70,7 +71,7 @@ class Traffic {
         Direction = determineDirection(Path.get(currentIndex).Pos, Path.get(currentIndex+1).Pos);
         }
         else { // traffic has reached its destination
-          Direction = new PVector (0, 0); 
+          Direction = new PVector (0, 0);  // ensure the car stops moving
           reachedEnd = true;
         }
       }
@@ -182,7 +183,4 @@ class Traffic {
       }
     }    
   }  
-}
-  
-  
-  
+}  

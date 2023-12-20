@@ -8,6 +8,7 @@ T: Mart X: 465 Y: 325 S: 50 E: ul
 T: House X: 70 Y: 325 S: 50 E: d
 T: House X: 130 Y: 325 S: 50 E: d
 T: House X: 190 Y: 325 S: 50 E: d
+T: Bank X: 390 Y: 525 S: 100 E: u
 C1:
 T: Bank X: 300 Y: 500 E: udlr
 T: School X: 600 Y: 300 E: udlr
